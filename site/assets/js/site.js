@@ -121,6 +121,7 @@
       cta_band_p: "Send a photo of your frontage on WhatsApp and we'll come back with sizes and a price. No obligation.",
       foot_blurb: "Custom signboard manufacturer: design, fabrication and installation from our workshop in Bukit Kemuning, Shah Alam. Since 2008.",
       foot_nav: "Navigate", foot_contact: "Contact", foot_made: "Shah Alam, Selangor, Malaysia",
+      lbl_waze: "Use Waze to drive there →",
 
       /* service names (shared) */
       s_signboard: "Signboard", s_3d: "3D / box-up lettering", s_cutout: "Cut-out flat lettering",
@@ -245,6 +246,7 @@
       contact_intro: "Give us the location, rough size and your deadline. A photo or drawing helps us quote faster.",
       info_head: "5M Signcom Sdn Bhd, 200801011102 (812390-K)",
       lbl_workshop: "Workshop & office", lbl_directions: "Open in Google Maps →",
+      lbl_waze: "Buka dalam Waze →",
       lbl_tel: "Telephone", lbl_fax: "Fax", lbl_email: "Email",
       lbl_map: "Find us", map_note: "Bukit Kemuning, Seksyen 32, off Jalan Sungai Jerluh, a short drive from Kesas and the Kemuning interchange.",
       f_name: "Name", f_company: "Company", f_phone: "Phone / WhatsApp", f_service: "What do you need?",
@@ -383,6 +385,7 @@
       contact_intro: "Beritahu kami lokasi, saiz anggaran dan tarikh akhir anda. Foto atau lukisan membantu kami sebut harga dengan lebih pantas.",
       info_head: "5M Signcom Sdn Bhd, 200801011102 (812390-K)",
       lbl_workshop: "Bengkel & pejabat", lbl_directions: "Buka di Google Maps →",
+      lbl_waze: "在 Waze 中打开 →",
       lbl_tel: "Telefon", lbl_fax: "Faks", lbl_email: "E-mel",
       lbl_map: "Cari kami", map_note: "Bukit Kemuning, Seksyen 32, dari Jalan Sungai Jerluh, tidak jauh dari Kesas dan susur Kemuning.",
       f_name: "Nama", f_company: "Syarikat", f_phone: "Telefon / WhatsApp", f_service: "Apa yang anda perlukan?",

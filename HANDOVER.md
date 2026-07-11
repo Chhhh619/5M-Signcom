@@ -12,7 +12,7 @@ task, may need restarting next session). Site at `http://localhost:4001/site/`.
 
 ## Cache-busting — READ THIS FIRST
 Every `<link rel="stylesheet">` and `<script src=...>` tag across all 5 HTML pages
-carries `?v=20260712f` (current as of session end). **Any time you edit `site.css`, `site.js`, `gallery.js`, or
+carries `?v=20260712g` (current as of session end). **Any time you edit `site.css`, `site.js`, `gallery.js`, or
 `gallery-data.js`, bump this version string in all 5 HTML files and keep CSS/JS in
 sync** — a stale-cache mismatch already cost real time this session (user reported a
 CSS fix "not working" when it was actually their browser serving the old cached file).
@@ -89,13 +89,17 @@ Check current value with `grep -ho 'v=2026[0-9a-z]*' site/*.html`.
     `transform:translateY(6px)` desktop / `translateY(5px)` mobile (visual-only,
     doesn't affect flex layout of siblings). Verified via live screenshots at
     both mobile (390px) and desktop (1440px) — mark now reads as vertically
-    balanced in the bar.
+   balanced in the bar.
+
+12. **Contact + home-page polish** — added a direct Waze deep link on the contact
+   page, tightened the shared red WhatsApp button sizing in the top bar, and
+   promoted the home-page "See all our services" link to a real red CTA button
+   inside a dedicated `.svc-more` wrapper. Kept the shared CSS/JS cache-bust in
+   sync across all 5 HTML pages.
 
 ## Immediate next step
-Delete the throwaway probe files, `C:\Users\drax1\Downloads\5M\probe-overflow.html`
-and `probe-view.html`, unless you want to keep them as local test harnesses.
-After that, do the 390px spot-check on `about.html` / `services.html` /
-`contact.html` if you want full coverage of the shared mobile CSS.
+No pending probe cleanup remains. If you make further `site.css` / `site.js`
+changes, keep the `?v=...` string aligned in all 5 HTML files before pushing.
 
 ## Other pending items
 - **Spot-check about.html / services.html / contact.html at 390px** — the padding

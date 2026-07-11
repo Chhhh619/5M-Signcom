@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-src https://www.google.com https://maps.google.com https://consent.google.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<title>Our Services: Signboard, 3D LED, Lightbox, Pylon | 5M Signcom</title>
+<meta name="description" content="Signage services in-house: signboard, 3D box-up lettering, neon/LED, lightbox, cut-out letters, acrylic, chemical etching, water jet, pylon, outdoor projects and more. Includes a live 3D box-up letter demo.">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="assets/css/site.css?v=20260712f">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="brand" href="index.html" aria-label="5M Signcom, home">
+      <img class="brand-logo" src="assets/img/logo.png" alt="5M Signcom" width="440" height="244">
+    </a>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="index.html" data-i18n="nav_home">Home</a>
+      <a href="about.html" data-i18n="nav_about">About</a>
+      <a href="services.html" aria-current="page" data-i18n="nav_services">Services</a>
+      <a href="gallery.html" data-i18n="nav_projects">Projects</a>
+      <a href="contact.html" data-i18n="nav_contact">Contact</a>
+    </nav>
+    <a class="btn btn-red top-wa" href="https://wa.me/60166261181" target="_blank" rel="noopener" data-i18n="nav_wa">WhatsApp us</a>
+    <div class="lang">
+      <button type="button" class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-label="Language" data-i18n-attr="aria-label:lang_label">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.6 3.9 5.6 3.9 9s-1.4 6.4-3.9 9c-2.5-2.6-3.9-5.6-3.9-9s1.4-6.4 3.9-9z"/></svg>
+      </button>
+      <div class="lang-menu" hidden>
+        <button type="button" data-lang="en" aria-pressed="true">English</button>
+        <button type="button" data-lang="ms" aria-pressed="false">Bahasa Melayu</button>
+        <button type="button" data-lang="zh" aria-pressed="false">中文</button>
+      </div>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav" aria-label="Menu" data-i18n-attr="aria-label:nav_menu"><span class="menu-bars" aria-hidden="true"><span></span><span></span><span></span></span></button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="page-head">
+    <div class="container page-head-inner">
+      <div class="svc-hero">
+        <div>
+          <nav class="crumb mono" aria-label="Breadcrumb">
+            <a href="index.html" data-i18n="nav_home">Home</a><span class="sep">/</span><b data-i18n="sv_crumb">Our services</b>
+          </nav>
+          <h1 class="display" data-i18n="sv_h1">Every signage service, all in-house</h1>
+          <p class="lede" data-i18n="sv_lede">From cut vinyl lettering to a highway pylon, every service below is designed, fabricated and installed by our own team in Shah Alam.</p>
+        </div>
+        <div class="viewer-wrap">
+          <div class="viewer-head mono">
+            <span data-i18n="v_head_l">Model: 3D box-up letter</span>
+            <span class="live" data-i18n="v_live">● Live 3D</span>
+          </div>
+          <canvas id="viewer3d" width="600" height="400" role="img" aria-label="Interactive 3D model of a box-up channel letter"></canvas>
+          <div class="viewer-fallback" id="viewerFallback" style="display:none;" data-i18n="v_fallback">3D preview needs WebGL, which this browser has turned off. Everything else on the page works; this box is only the interactive letter.</div>
+          <div class="viewer-foot">
+            <div class="viewer-controls">
+              <button type="button" id="btnRotate" aria-pressed="true" data-i18n="v_ctl_rotate">Auto-rotate</button>
+              <button type="button" id="btnLight" aria-pressed="false" data-i18n="v_ctl_light">LED on</button>
+              <button type="button" id="btnWire" aria-pressed="false" data-i18n="v_ctl_wire">Wireframe</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="sec-tag"><span class="mono" data-i18n="sv_tag">Sheet S / Services index</span><span class="rule"></span></div>
+      <p class="mono" style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--steel);margin-bottom:12px;" data-i18n="sv_index_label">Jump to a service:</p>
+      <div class="svc-index">
+        <a href="#signboard" data-i18n="s_signboard">Signboard</a>
+        <a href="#threed" data-i18n="s_3d">3D / box-up lettering</a>
+        <a href="#led" data-i18n="s_led">Neon / LED signs</a>
+        <a href="#lightbox" data-i18n="s_lightbox">Lightbox</a>
+        <a href="#cutout" data-i18n="s_cutout">Cut-out flat lettering</a>
+        <a href="#acrylic" data-i18n="s_acrylic">Acrylic works</a>
+        <a href="#etching" data-i18n="s_etching">Chemical etching</a>
+        <a href="#waterjet" data-i18n="s_waterjet">Water jet cutting</a>
+        <a href="#pylon" data-i18n="s_pylon">Pylon signs</a>
+        <a href="#outdoor" data-i18n="s_outdoor">Outdoor projects</a>
+      </div>
+
+      <div class="svc-sheets" style="margin-top:30px;">
+        <article class="svc-sheet" id="signboard">
+          <div class="svc-photo">
+            <img src="assets/img/hero-happyfeet.jpg" alt="Happy Feet billboard signboard fabricated and installed by 5M Signcom" loading="lazy">
+            <span class="svc-num mono">01</span>
+          </div>
+          <div class="svc-body">
+            <h3 class="display" data-i18n="s_signboard">Signboard</h3>
+            <p data-i18n="sv_d_signboard">The primary face of your premises. We fabricate storefront and building signboards to your brand artwork and exact building dimensions, finished for years of outdoor exposure.</p>
+            <div class="materials"><span class="mono" data-i18n="sv_mat_label">Typical materials</span><div class="mat-tags" data-i18n-list="sv_mat_signboard"><span>Aluminium composite</span><span>Steel frame</span><span>Vinyl</span><span>LED</span></div></div>
+          </div>
+        </article>
+
+        <article class="svc-sheet" id="threed">
+          <div class="svc-photo">
+            <img src="assets/img/proj-3d-leadresidences.jpg" alt="The Lead Residences 3D box-up lettering by 5M Signcom" loading="lazy">
+            <span class="svc-num mono">02</span>
+          </div>
+          <div class="svc-body">
+            <h3 class="display" data-i18n="s_3d">3D / box-up lettering</h3>
+            <p data-i18n="sv_d_3d">Individual profile-cut letters manufactured from a wide selection of materials (stainless steel, anodised aluminium, brass or acrylic) for a solid, dimensional storefront.</p>
+            <div class="materials"><span class="mono" data-i18n="sv_mat_label">Typical materials</span><div class="mat-tags" data-i18n-list="sv_mat_3d"><span>Stainless steel</span><span>Anodised aluminium</span><span>Brass</span><span>Acrylic</span></div></div>
+          </div>
+        </article>
+
+        <article class="svc-sheet" id="led">
+          <div class="svc-photo">
+            <img src="assets/img/gallery/3dled-08.jpg" alt="LED-lit 3D box-up letters and logo, illuminated at night, by 5M Signcom" loading="lazy">
+            <span class="svc-num mono">03</span>
+          </div>
+          <div class="svc-body">
+            <h3 class="display" data-i18n="s_led">Neon / LED signs</h3>
+            <p data-i18n="sv_d_led">One of the brightest, most effective forms of advertising. Neon and LED signage stays visible long after dark and, well looked after, lasts for many years.</p>
+            <div class="materials"><span class="mono" data-i18n="sv_mat_label">Typical materials</span><div class="mat-tags" data-i18n-list="sv_mat_led"><span>LED modules</span><span>Neon flex</span><span>Acrylic face</span><span>Backing panel</span></div></div>
+          </div>
+        </article>
+
+        <article class="svc-sheet" id="lightbox">
+          <div class="svc-photo">
+            <img src="assets/img/proj-lightbox-jayacom.jpg" alt="Jayacom lightbox signage by 5M Signcom" loading="lazy">
+            <span class="svc-num mono">04</span>
+          </div>
+          <div class="svc-body">
+            <h3 class="display" data-i18n="s_lightbox">Lightbox</h3>
+            <p data-i18n="sv_d_lightbox">Backlit fascia and projecting lightboxes with even illumination across the panel, for a clean, bright frontage that reads clearly day and night.</p>
+            <div class="materials"><span class="mono" data-i18n="sv_mat_label">Typical materials</span><div class="mat-tags" data-i18n-list="sv_mat_lightbox"><span>Acrylic face</span><span>LED</span><span>Aluminium frame</span></div></div>
+          </div>
+        </article>
+
+        <article class="svc-sheet" id="cutout">
+          <div class="svc-photo">
+            <img src="assets/img/proj-cutout-islandvilla.jpg" alt="Island Villa cut-out flat lettering by 5M Signcom" loading="lazy">
+            <span class="svc-num mono">05</span>
+          </div>
+          <div class="svc-body">
+            <h3 class="display" data-i18n="s_cutout">Cut-out flat lettering</h3>
+            <p data-i18n="sv_d_cutout">Flat letters cut from acrylic, aluminium or PVC and mounted directly to your wall or panel, for a crisp, economical look in interiors and shopfronts.</p>
+            <div class="materials"><span class="mono" data-i18n="sv_mat_label">Typical materials</span><div class="mat-tags" data-i18n-list="sv_mat_cutout"><span>Acrylic</span><span>Aluminium</span><span>PVC foam</span></div></div>
+          </div>
+        </article>
+
+        <article class="svc-sheet" id="acrylic">
+          <div class="svc-photo">
+            <img src="assets/img/gallery/acrylic-03.jpg" alt="Glossy acrylic standoff lobby lettering by 5M Signcom" loading="lazy">
+            <span class="svc-num mono">06</span>
+          </div>
+          <div class="svc-body">
+            <h3 class="display" data-i18n="s_acrylic">Acrylic works</h3>
+            <p data-i18n="sv_d_acrylic">Precision-cut and fabricated acrylic for panels, plaques, directories and built-up letters, with polished or flame-finished edges.</p>
+            <div class="materials"><span class="mono" data-i18n="sv_mat_label">Typical materials</span><div class="mat-tags" data-i18n-list="sv_mat_acrylic"><span>Cast acrylic</span><span>Polished edge</span><span>Custom colour</span></div></div>
+          </div>
+        </article>
+
+        <article class="svc-sheet" id="etching">
+          <div class="svc-photo">
+            <img src="assets/img/proj-etching-doosan.jpg" alt="Doosan Infracore chemically etched plaque by 5M Signcom" loading="lazy">
+            <span class="svc-num mono">07</span>
+          </div>
+          <div class="svc-body">
+            <h3 class="display" data-i18n="s_etching">Chemical etching</h3>
+            <p data-i18n="sv_d_etching">The image is cut into the surface of the material by a chemical process, giving a permanent, hard-wearing result, ideal for brass and stainless plaques.</p>
+            <div class="materials"><span class="mono" data-i18n="sv_mat_label">Typical materials</span><div class="mat-tags" data-i18n-list="sv_mat_etching"><span>Brass</span><span>Stainless steel</span><span>Aluminium</span></div></div>
+          </div>
+        </article>
+
+        <article class="svc-sheet" id="waterjet">
+          <div class="svc-photo">
+            <img src="assets/img/gallery/waterjet-01.jpg" alt="Water-jet cutting head profiling a metal sheet" loading="lazy">
+            <span class="svc-num mono">08</span>
+          </div>
+          <div class="svc-body">
+            <h3 class="display" data-i18n="s_waterjet">Water jet cutting</h3>
+            <p data-i18n="sv_d_waterjet">Cold water-jet cutting for clean, precise profiles in thick metal, stone and composite, with no heat distortion and tight tolerances.</p>
+            <div class="materials"><span class="mono" data-i18n="sv_mat_label">Typical materials</span><div class="mat-tags" data-i18n-list="sv_mat_waterjet"><span>Steel</span><span>Stainless</span><span>Stone</span><span>Composite</span></div></div>
+          </div>
+        </article>
+
+        <article class="svc-sheet" id="pylon">
+          <div class="svc-photo">
+            <img src="assets/img/proj-pylon-cergas.jpg" alt="Multi-tenant directory pylon sign by 5M Signcom" loading="lazy">
+            <span class="svc-num mono">09</span>
+          </div>
+          <div class="svc-body">
+            <h3 class="display" data-i18n="s_pylon">Pylon signs</h3>
+            <p data-i18n="sv_d_pylon">Free-standing pylon and monument signs engineered for wind load and Malaysian weather: the landmark that marks your site from the road.</p>
+            <div class="materials"><span class="mono" data-i18n="sv_mat_label">Typical materials</span><div class="mat-tags" data-i18n-list="sv_mat_pylon"><span>Steel structure</span><span>ACP cladding</span><span>LED / lightbox</span></div></div>
+          </div>
+        </article>
+
+        <article class="svc-sheet" id="outdoor">
+          <div class="svc-photo">
+            <img src="assets/img/proj-outdoor-bbtone.jpg" alt="BBT-One Klang outdoor signage project by 5M Signcom" loading="lazy">
+            <span class="svc-num mono">10</span>
+          </div>
+          <div class="svc-body">
+            <h3 class="display" data-i18n="s_outdoor">Outdoor projects</h3>
+            <p data-i18n="sv_d_outdoor">Site-wide and large-format outdoor works: billboards, gantries, hoardings and multi-sign rollouts installed by our own crew.</p>
+            <div class="materials"><span class="mono" data-i18n="sv_mat_label">Typical materials</span><div class="mat-tags" data-i18n-list="sv_mat_outdoor"><span>Steel</span><span>ACP</span><span>Digital print</span><span>Structure</span></div></div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container cta-band-inner">
+      <div>
+        <h2 class="display" data-i18n="cta_band_h">Ready to put your sign up?</h2>
+        <p data-i18n="cta_band_p">Send a photo of your frontage on WhatsApp and we'll come back with sizes and a price. No obligation.</p>
+      </div>
+      <div class="cta-row" style="margin:0;">
+        <a class="btn btn-red" href="contact.html" data-i18n="cta_quote">Request a quotation</a>
+        <a class="btn btn-ghost" href="https://wa.me/60166261181" target="_blank" rel="noopener">WhatsApp 016-626 1181</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <a class="foot-logo" href="index.html" aria-label="5M Signcom, home">
+          <img src="assets/img/logo.png" alt="5M Signcom Sdn Bhd" width="440" height="244">
+        </a>
+        <p class="mono" style="margin-top:12px;font-size:10.5px;letter-spacing:.12em;color:#8A8F9A;">SDN BHD · 200801011102 (812390-K)</p>
+        <p style="margin-top:14px;max-width:34em;" data-i18n="foot_blurb">Custom signboard manufacturer: design, fabrication and installation from our workshop in Bukit Kemuning, Shah Alam. Since 2008.</p>
+      </div>
+      <div class="foot-col">
+        <span class="mono" data-i18n="foot_nav">Navigate</span>
+        <a href="about.html" data-i18n="nav_about">About</a>
+        <a href="services.html" data-i18n="nav_services">Services</a>
+        <a href="gallery.html" data-i18n="nav_projects">Projects</a>
+        <a href="contact.html" data-i18n="nav_contact">Contact</a>
+      </div>
+      <div class="foot-col">
+        <span class="mono" data-i18n="foot_contact">Contact</span>
+        <p>No. 25, Jalan Sungai Jerluh 32/196, Bukit Kemuning, 40460 Shah Alam</p>
+        <a href="tel:+60351318877">+603-5131 8877</a>
+        <a href="https://wa.me/60166261181" target="_blank" rel="noopener">WhatsApp +6016-626 1181</a>
+        <a href="mailto:signcom5m@gmail.com">signcom5m@gmail.com</a>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>© <span id="year">2026</span> 5M Signcom Sdn Bhd, 200801011102 (812390-K)</span>
+      <span data-i18n="foot_made">Shah Alam, Selangor, Malaysia</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/three.min.js"></script>
+<script src="assets/js/viewer3d.js"></script>
+<script src="assets/js/site.js?v=20260712f"></script>
+</body>
+</html>

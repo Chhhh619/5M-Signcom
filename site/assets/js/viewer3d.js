@@ -1,7 +1,8 @@
 /* ============================================================
-   5M Signcom — live 3D "box-up letter" viewer (Three.js r128)
-   Builds the 5M mark as channel-letter strokes: coloured
-   returns + a front face that can glow like an LED sign.
+   5M Signcom — live 3D logo viewer (Three.js r128)
+   Extrudes the actual 5M logo mark (outline traced from
+   logo.png) as a box-up sign: coloured returns + a front
+   face that can glow like an LED sign.
    Runs only if a #viewer3d canvas is present.
    ============================================================ */
 (function () {
@@ -52,38 +53,31 @@
   var FACE_DAY = 0xF06A1D;
   var sideMat = new THREE.MeshStandardMaterial({ color: RED, roughness: 0.55, metalness: 0.1 });
   var faceMat = new THREE.MeshStandardMaterial({ color: FACE_DAY, roughness: 0.35, metalness: 0.0, emissive: 0xff7a30, emissiveIntensity: 0.0 });
-  // BoxGeometry material order: [+x,-x,+y,-y,+z(front),-z(back)]
-  var mats = [sideMat, sideMat, sideMat, sideMat, faceMat, sideMat];
 
-  var DEPTH = 0.62, T = 0.42;
+  // the 5M logo mark, traced from assets/img/logo.png (x right, y up,
+  // centred, 4.6 units wide) — one polygon per solid piece of the mark
+  var LOGO = [
+    // "M" outer stroke
+    [[2.3, -0.765], [1.713, 0.503], [1.525, 0.713], [1.42, 0.754], [1.273, 0.775], [-0.498, 0.775], [-0.498, 0.723], [-0.54, 0.723], [-0.571, 0.754], [-0.571, -0.765], [-0.11, -0.765], [-0.11, 0.388], [1.053, 0.388], [1.126, 0.367], [1.305, 0.22], [1.808, -0.765]],
+    // "5"
+    [[-0.665, 0.754], [-2.237, 0.754], [-2.216, 0.692], [-2.3, 0.733], [-2.3, -0.157], [-1.284, -0.157], [-1.189, -0.21], [-1.189, -0.44], [-1.158, -0.44], [-1.21, -0.513], [-1.252, -0.524], [-1.305, -0.513], [-1.284, -0.472], [-2.227, -0.472], [-2.216, -0.534], [-2.248, -0.534], [-2.3, -0.482], [-2.3, -0.765], [-0.938, -0.775], [-0.77, -0.702], [-0.697, -0.608], [-0.665, -0.503], [-0.665, -0.126], [-0.718, 0.01], [-0.802, 0.094], [-0.896, 0.136], [-1.787, 0.147], [-1.787, 0.451], [-0.665, 0.451]],
+    // "M" centre stroke
+    [[0.812, -0.765], [0.812, 0.199], [0.424, 0.189], [0.424, 0.147], [0.382, 0.147], [0.351, 0.178], [0.351, -0.765]]
+  ];
+
+  var DEPTH = 0.55;
   var group = new THREE.Group();
 
-  function bar(cx, cy, w, h, rot) {
-    var geo = new THREE.BoxGeometry(w, h, DEPTH);
-    var mesh = new THREE.Mesh(geo, mats);
-    mesh.position.set(cx, cy, 0);
-    if (rot) mesh.rotation.z = rot;
-    group.add(mesh);
-  }
-
-  // letter "5" — blocky segments, letter-centre at xOff
-  (function letterFive(xOff) {
-    var o = xOff;
-    bar(o + 0.00, 0.89, 1.60, T);        // top
-    bar(o - 0.59, 0.45, T, 0.89);        // upper-left vertical
-    bar(o + 0.00, 0.00, 1.60, T);        // middle
-    bar(o + 0.59, -0.45, T, 0.89);       // lower-right vertical
-    bar(o + 0.00, -0.89, 1.60, T);       // bottom
-  })(-1.65);
-
-  // letter "M" — two verticals + two diagonals, centre at xOff
-  (function letterEm(xOff) {
-    var o = xOff;
-    bar(o - 0.79, 0.00, T, 2.20);        // left vertical
-    bar(o + 0.79, 0.00, T, 2.20);        // right vertical
-    bar(o - 0.40, 0.47, 1.48, T, -0.9764); // left diagonal
-    bar(o + 0.40, 0.47, 1.48, T, 0.9764);  // right diagonal
-  })(1.55);
+  LOGO.forEach(function (poly) {
+    var shape = new THREE.Shape();
+    shape.moveTo(poly[0][0], poly[0][1]);
+    for (var i = 1; i < poly.length; i++) shape.lineTo(poly[i][0], poly[i][1]);
+    shape.closePath();
+    var geo = new THREE.ExtrudeGeometry(shape, { depth: DEPTH, bevelEnabled: false });
+    geo.translate(0, 0, -DEPTH / 2);
+    // ExtrudeGeometry material order: [caps (front/back), extruded sides]
+    group.add(new THREE.Mesh(geo, [faceMat, sideMat]));
+  });
 
   group.rotation.set(-0.1, -0.32, 0);
   scene.add(group);
@@ -118,7 +112,6 @@
 
   var btnRotate = document.getElementById("btnRotate");
   var btnLight = document.getElementById("btnLight");
-  var btnWire = document.getElementById("btnWire");
   if (btnRotate) {
     btnRotate.setAttribute("aria-pressed", autoRotate ? "true" : "false");
     btnRotate.addEventListener("click", function () {
@@ -135,13 +128,6 @@
     btnLight.setAttribute("aria-pressed", "false");
   }
   applyLed();
-  if (btnWire) {
-    btnWire.addEventListener("click", function () {
-      var on = btnWire.getAttribute("aria-pressed") !== "true";
-      sideMat.wireframe = on; faceMat.wireframe = on;
-      btnWire.setAttribute("aria-pressed", on ? "true" : "false");
-    });
-  }
 
   /* ---- pointer drag to orbit ---- */
   var dragging = false, px = 0, py = 0;

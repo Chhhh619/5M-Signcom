@@ -6,8 +6,12 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-src https://www.google.com https://maps.google.com https://consent.google.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <title>Our Services: Signboard, 3D LED, Lightbox, Pylon | 5M Signcom</title>
 <meta name="description" content="Signage services in-house: signboard, 3D box-up lettering, neon/LED, lightbox, cut-out letters, acrylic, chemical etching, water jet, pylon, outdoor projects and more. Includes a live 3D box-up letter demo.">
+<meta property="og:site_name" content="5M Signcom Sdn Bhd">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Our Services: Signboard, 3D LED, Lightbox, Pylon | 5M Signcom">
+<meta property="og:description" content="Signage services in-house: signboard, 3D box-up lettering, neon/LED, lightbox, cut-out letters, acrylic, chemical etching, water jet, pylon, outdoor projects and more. Includes a live 3D box-up letter demo.">
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/site.css?v=20260712f">
+<link rel="stylesheet" href="assets/css/site.css?v=20260713n">
 </head>
 <body>
 
@@ -24,6 +28,7 @@
       <a href="contact.html" data-i18n="nav_contact">Contact</a>
     </nav>
     <a class="btn btn-red top-wa" href="https://wa.me/60166261181" target="_blank" rel="noopener" data-i18n="nav_wa">WhatsApp us</a>
+    <a class="wa-icon" href="https://wa.me/60166261181" target="_blank" rel="noopener" aria-label="WhatsApp us" data-i18n-attr="aria-label:nav_wa"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
     <div class="lang">
       <button type="button" class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-label="Language" data-i18n-attr="aria-label:lang_label">
         <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.6 3.9 5.6 3.9 9s-1.4 6.4-3.9 9c-2.5-2.6-3.9-5.6-3.9-9s1.4-6.4 3.9-9z"/></svg>
@@ -51,16 +56,15 @@
         </div>
         <div class="viewer-wrap">
           <div class="viewer-head mono">
-            <span data-i18n="v_head_l">Model: 3D box-up letter</span>
+            <span data-i18n="v_head_l">Model: 5M logo · box-up</span>
             <span class="live" data-i18n="v_live">● Live 3D</span>
           </div>
-          <canvas id="viewer3d" width="600" height="400" role="img" aria-label="Interactive 3D model of a box-up channel letter"></canvas>
-          <div class="viewer-fallback" id="viewerFallback" style="display:none;" data-i18n="v_fallback">3D preview needs WebGL, which this browser has turned off. Everything else on the page works; this box is only the interactive letter.</div>
+          <canvas id="viewer3d" width="600" height="400" role="img" aria-label="Interactive 3D model of the 5M Signcom logo as a box-up sign"></canvas>
+          <div class="viewer-fallback" id="viewerFallback" style="display:none;" data-i18n="v_fallback">3D preview needs WebGL, which this browser has turned off. Everything else on the page works; this box is only the interactive logo.</div>
           <div class="viewer-foot">
             <div class="viewer-controls">
               <button type="button" id="btnRotate" aria-pressed="true" data-i18n="v_ctl_rotate">Auto-rotate</button>
               <button type="button" id="btnLight" aria-pressed="false" data-i18n="v_ctl_light">LED on</button>
-              <button type="button" id="btnWire" aria-pressed="false" data-i18n="v_ctl_wire">Wireframe</button>
             </div>
           </div>
         </div>
@@ -70,26 +74,14 @@
 
   <section class="section">
     <div class="container">
-      <div class="sec-tag"><span class="mono" data-i18n="sv_tag">Sheet S / Services index</span><span class="rule"></span></div>
-      <p class="mono" style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--steel);margin-bottom:12px;" data-i18n="sv_index_label">Jump to a service:</p>
-      <div class="svc-index">
-        <a href="#signboard" data-i18n="s_signboard">Signboard</a>
-        <a href="#threed" data-i18n="s_3d">3D / box-up lettering</a>
-        <a href="#led" data-i18n="s_led">Neon / LED signs</a>
-        <a href="#lightbox" data-i18n="s_lightbox">Lightbox</a>
-        <a href="#cutout" data-i18n="s_cutout">Cut-out flat lettering</a>
-        <a href="#acrylic" data-i18n="s_acrylic">Acrylic works</a>
-        <a href="#etching" data-i18n="s_etching">Chemical etching</a>
-        <a href="#waterjet" data-i18n="s_waterjet">Water jet cutting</a>
-        <a href="#pylon" data-i18n="s_pylon">Pylon signs</a>
-        <a href="#outdoor" data-i18n="s_outdoor">Outdoor projects</a>
-      </div>
+      <div class="sec-tag"><span class="mono" data-i18n="sv_tag">Services</span><span class="rule"></span></div>
 
       <div class="svc-sheets" style="margin-top:30px;">
         <article class="svc-sheet" id="signboard">
-          <div class="svc-photo">
-            <img src="assets/img/hero-happyfeet.jpg" alt="Happy Feet billboard signboard fabricated and installed by 5M Signcom" loading="lazy">
+          <div class="svc-photo proj-item" data-cat="signboard">
+            <img src="assets/img/hero-happyfeet.jpg" alt="Happy Feet billboard signboard fabricated and installed by 5M Signcom. Opens a photo slider." loading="lazy">
             <span class="svc-num mono">01</span>
+            <span class="svc-count mono">● <span class="gl-count">7</span> <span data-i18n="gl_photos">photos</span></span>
           </div>
           <div class="svc-body">
             <h3 class="display" data-i18n="s_signboard">Signboard</h3>
@@ -99,9 +91,10 @@
         </article>
 
         <article class="svc-sheet" id="threed">
-          <div class="svc-photo">
-            <img src="assets/img/proj-3d-leadresidences.jpg" alt="The Lead Residences 3D box-up lettering by 5M Signcom" loading="lazy">
+          <div class="svc-photo proj-item" data-cat="3d">
+            <img src="assets/img/proj-3d-leadresidences.jpg" alt="The Lead Residences 3D box-up lettering by 5M Signcom. Opens a photo slider." loading="lazy">
             <span class="svc-num mono">02</span>
+            <span class="svc-count mono">● <span class="gl-count">5</span> <span data-i18n="gl_photos">photos</span></span>
           </div>
           <div class="svc-body">
             <h3 class="display" data-i18n="s_3d">3D / box-up lettering</h3>
@@ -111,9 +104,10 @@
         </article>
 
         <article class="svc-sheet" id="led">
-          <div class="svc-photo">
-            <img src="assets/img/gallery/3dled-08.jpg" alt="LED-lit 3D box-up letters and logo, illuminated at night, by 5M Signcom" loading="lazy">
+          <div class="svc-photo proj-item" data-cat="3dled">
+            <img src="assets/img/gallery/3dled-08.jpg" alt="LED-lit 3D box-up letters and logo, illuminated at night, by 5M Signcom. Opens a photo slider." loading="lazy">
             <span class="svc-num mono">03</span>
+            <span class="svc-count mono">● <span class="gl-count">6</span> <span data-i18n="gl_photos">photos</span></span>
           </div>
           <div class="svc-body">
             <h3 class="display" data-i18n="s_led">Neon / LED signs</h3>
@@ -123,9 +117,10 @@
         </article>
 
         <article class="svc-sheet" id="lightbox">
-          <div class="svc-photo">
-            <img src="assets/img/proj-lightbox-jayacom.jpg" alt="Jayacom lightbox signage by 5M Signcom" loading="lazy">
+          <div class="svc-photo proj-item" data-cat="lightbox">
+            <img src="assets/img/proj-lightbox-jayacom.jpg" alt="Jayacom lightbox signage by 5M Signcom. Opens a photo slider." loading="lazy">
             <span class="svc-num mono">04</span>
+            <span class="svc-count mono">● <span class="gl-count">7</span> <span data-i18n="gl_photos">photos</span></span>
           </div>
           <div class="svc-body">
             <h3 class="display" data-i18n="s_lightbox">Lightbox</h3>
@@ -135,9 +130,10 @@
         </article>
 
         <article class="svc-sheet" id="cutout">
-          <div class="svc-photo">
-            <img src="assets/img/proj-cutout-islandvilla.jpg" alt="Island Villa cut-out flat lettering by 5M Signcom" loading="lazy">
+          <div class="svc-photo proj-item" data-cat="cutout">
+            <img src="assets/img/proj-cutout-islandvilla.jpg" alt="Island Villa cut-out flat lettering by 5M Signcom. Opens a photo slider." loading="lazy">
             <span class="svc-num mono">05</span>
+            <span class="svc-count mono">● <span class="gl-count">10</span> <span data-i18n="gl_photos">photos</span></span>
           </div>
           <div class="svc-body">
             <h3 class="display" data-i18n="s_cutout">Cut-out flat lettering</h3>
@@ -147,9 +143,10 @@
         </article>
 
         <article class="svc-sheet" id="acrylic">
-          <div class="svc-photo">
-            <img src="assets/img/gallery/acrylic-03.jpg" alt="Glossy acrylic standoff lobby lettering by 5M Signcom" loading="lazy">
+          <div class="svc-photo proj-item" data-cat="acrylic">
+            <img src="assets/img/gallery/acrylic-03.jpg" alt="Glossy acrylic standoff lobby lettering by 5M Signcom. Opens a photo slider." loading="lazy">
             <span class="svc-num mono">06</span>
+            <span class="svc-count mono">● <span class="gl-count">5</span> <span data-i18n="gl_photos">photos</span></span>
           </div>
           <div class="svc-body">
             <h3 class="display" data-i18n="s_acrylic">Acrylic works</h3>
@@ -159,9 +156,10 @@
         </article>
 
         <article class="svc-sheet" id="etching">
-          <div class="svc-photo">
-            <img src="assets/img/proj-etching-doosan.jpg" alt="Doosan Infracore chemically etched plaque by 5M Signcom" loading="lazy">
+          <div class="svc-photo proj-item" data-cat="etching">
+            <img src="assets/img/proj-etching-doosan.jpg" alt="Doosan Infracore chemically etched plaque by 5M Signcom. Opens a photo slider." loading="lazy">
             <span class="svc-num mono">07</span>
+            <span class="svc-count mono">● <span class="gl-count">7</span> <span data-i18n="gl_photos">photos</span></span>
           </div>
           <div class="svc-body">
             <h3 class="display" data-i18n="s_etching">Chemical etching</h3>
@@ -171,9 +169,10 @@
         </article>
 
         <article class="svc-sheet" id="waterjet">
-          <div class="svc-photo">
-            <img src="assets/img/gallery/waterjet-01.jpg" alt="Water-jet cutting head profiling a metal sheet" loading="lazy">
+          <div class="svc-photo proj-item" data-cat="waterjet">
+            <img src="assets/img/gallery/waterjet-01.jpg" alt="Water-jet cutting head profiling a metal sheet. Opens a photo slider." loading="lazy">
             <span class="svc-num mono">08</span>
+            <span class="svc-count mono">● <span class="gl-count">1</span> <span data-i18n="gl_photo">photo</span></span>
           </div>
           <div class="svc-body">
             <h3 class="display" data-i18n="s_waterjet">Water jet cutting</h3>
@@ -183,9 +182,10 @@
         </article>
 
         <article class="svc-sheet" id="pylon">
-          <div class="svc-photo">
-            <img src="assets/img/proj-pylon-cergas.jpg" alt="Multi-tenant directory pylon sign by 5M Signcom" loading="lazy">
+          <div class="svc-photo proj-item" data-cat="pylon">
+            <img src="assets/img/proj-pylon-cergas.jpg" alt="Multi-tenant directory pylon sign by 5M Signcom. Opens a photo slider." loading="lazy">
             <span class="svc-num mono">09</span>
+            <span class="svc-count mono">● <span class="gl-count">10</span> <span data-i18n="gl_photos">photos</span></span>
           </div>
           <div class="svc-body">
             <h3 class="display" data-i18n="s_pylon">Pylon signs</h3>
@@ -195,9 +195,10 @@
         </article>
 
         <article class="svc-sheet" id="outdoor">
-          <div class="svc-photo">
-            <img src="assets/img/proj-outdoor-bbtone.jpg" alt="BBT-One Klang outdoor signage project by 5M Signcom" loading="lazy">
+          <div class="svc-photo proj-item" data-cat="outdoor">
+            <img src="assets/img/proj-outdoor-bbtone.jpg" alt="BBT-One Klang outdoor signage project by 5M Signcom. Opens a photo slider." loading="lazy">
             <span class="svc-num mono">10</span>
+            <span class="svc-count mono">● <span class="gl-count">8</span> <span data-i18n="gl_photos">photos</span></span>
           </div>
           <div class="svc-body">
             <h3 class="display" data-i18n="s_outdoor">Outdoor projects</h3>
@@ -207,6 +208,58 @@
         </article>
 
       </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <div class="sec-tag"><span class="mono" data-i18n="sv_inst_tag">Installation</span><span class="rule"></span></div>
+      <div class="install-grid" style="margin-top:8px;">
+        <div class="prose">
+          <h2 class="display" data-i18n="sv_inst_h">We handle installation too</h2>
+          <p data-i18n="sv_inst_p1">We offer installation as part of the project. Our own crew brings your sign to
+            site and puts it up, with the skylifts, cranes, welding and wiring taken care of, and we stay until
+            everything is up and working.</p>
+          <p data-i18n="sv_inst_p2">Whether it is casting the concrete base for a pylon or fitting letters onto a
+            building face, the team that built your sign is ready to install it too.</p>
+        </div>
+        <div class="install-photos">
+          <figure class="ph ph-tall">
+            <img src="assets/img/gallery/aicb/AICB1.jpeg"
+              alt="5M Signcom crew installing large-format building signage at AICB, Kuala Lumpur, using a boom lift" loading="lazy">
+          </figure>
+          <figure class="ph">
+            <img src="assets/img/gallery/outdoor-04.jpg"
+              alt="5M Signcom crew wiring LED lettering on site" loading="lazy">
+          </figure>
+          <figure class="ph">
+            <img src="assets/img/gallery/installation-pylon.jpg"
+              alt="5M Signcom crew casting the concrete foundation for a sign" loading="lazy">
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="why">
+    <div class="container">
+      <div class="sec-tag"><span class="mono" data-i18n="tag_why">The company</span><span class="rule"></span></div>
+      <h2 class="display" data-i18n="why_h2">Why clients choose us</h2>
+      <div class="why-grid">
+        <div class="why-item">
+          <h3 class="display" data-i18n="why1_h">One roof, one team</h3>
+          <p data-i18n="why1_p">Design, fabrication and installation happen in our own Shah Alam workshop. One team is responsible for your sign from first drawing to final handover.</p>
+        </div>
+        <div class="why-item">
+          <h3 class="display" data-i18n="why2_h">Since 2008</h3>
+          <p data-i18n="why2_p">SSM-registered manufacturer 200801011102 (812390-K). Eighteen years of signboards still standing across the Klang Valley.</p>
+        </div>
+        <div class="why-item">
+          <h3 class="display" data-i18n="why3_h">From plaques to pylons</h3>
+          <p data-i18n="why3_p">Brass etching, water jet cutting, LED lettering, highway-scale pylons: every signage service under one roof, so complex jobs stay with one contractor.</p>
+        </div>
+      </div>
+      <div class="stamp mono" data-i18n="stamp">SSM 200801011102 · EST. 2008 · SHAH ALAM</div>
     </div>
   </section>
 
@@ -257,7 +310,9 @@
 </footer>
 
 <script src="assets/js/three.min.js"></script>
-<script src="assets/js/viewer3d.js"></script>
-<script src="assets/js/site.js?v=20260712f"></script>
+<script src="assets/js/viewer3d.js?v=20260713n"></script>
+<script src="assets/js/gallery-data.js?v=20260713n"></script>
+<script src="assets/js/gallery.js?v=20260713n"></script>
+<script src="assets/js/site.js?v=20260713n"></script>
 </body>
 </html>

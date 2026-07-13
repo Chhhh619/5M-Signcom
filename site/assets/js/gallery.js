@@ -1,15 +1,15 @@
 /* ============================================================
-   5M Signcom — project lightbox slider (gallery page)
-   Click a project card -> popup slider over the full image set
-   for that project. Swipe / arrows / keyboard to navigate.
+   5M Signcom — project lightbox slider (gallery + services)
+   Click any .proj-item[data-cat] -> popup slider over the full
+   image set for that key. Swipe / arrows / keyboard to navigate.
    Reads image sets from window.GALLERY (gallery-data.js).
    ============================================================ */
 (function () {
   "use strict";
 
   var data = window.GALLERY;
-  var grid = document.querySelector(".proj-grid");
-  if (!data || !grid) return;
+  var cards = document.querySelectorAll(".proj-item[data-cat]");
+  if (!data || !cards.length) return;
 
   /* ---- build the lightbox DOM once (eagerly, so site.js i18n can reach it) ---- */
   var lb = document.createElement("div");
@@ -128,12 +128,21 @@
   }, { passive: true });
 
   /* ---- wire up the project cards ---- */
-  grid.querySelectorAll(".proj-item[data-cat]").forEach(function (card) {
+  cards.forEach(function (card) {
     card.setAttribute("role", "button");
     card.setAttribute("tabindex", "0");
     card.setAttribute("aria-haspopup", "dialog");
+    // keep the photo-count badge in sync with the manifest
+    var countEl = card.querySelector(".gl-count");
+    var set = data[card.getAttribute("data-cat")];
+    if (countEl && set) countEl.textContent = set.length;
     function activate() {
+      // card caption (gallery page) or the service card's heading (services page)
       var titleEl = card.querySelector(".sheet-block b");
+      if (!titleEl) {
+        var sheet = card.closest ? card.closest(".svc-sheet") : null;
+        if (sheet) titleEl = sheet.querySelector("h3");
+      }
       open(card.getAttribute("data-cat"), titleEl ? titleEl.textContent : "");
     }
     card.addEventListener("click", activate);

@@ -72,16 +72,19 @@
     [[0.812, -0.765], [0.812, 0.199], [0.424, 0.189], [0.424, 0.147], [0.382, 0.147], [0.351, 0.178], [0.351, -0.765]]
   ];
 
-  // the colourful leaf ribbons, in logo order (blue at the base sweeping
-  // round to red at the tip): [colour, tilt(rad), length, width, dx, dy]
+  // the colourful leaf ribbons, all fanning out from one pivot point just
+  // under the gap between the "5" and the "M" (measured off the pixels of
+  // assets/img/logo.png so the swirl sits clear of both letterforms —
+  // it used to overlap the "5" and z-fight with it): [colour, rotation.z
+  // (radians, 0 = straight up), length, width]
   var LEAVES = [
-    [0x2E9BD6,  0.62, 0.86, 0.15, -0.22, 0.00], // blue
-    [0x5DBB46,  0.34, 1.02, 0.16,  0.00, 0.00], // green
-    [0xF7941E,  0.03, 1.16, 0.16,  0.14, -0.02], // orange
-    [0xFAD017, -0.28, 1.08, 0.15,  0.27, 0.02], // yellow
-    [0xD42B1E, -0.62, 0.92, 0.14,  0.40, 0.08]  // red
+    [0x2E9BD6, 1.35, 1.20, 0.11], // blue
+    [0x5DBB46, 0.84, 0.87, 0.10], // green
+    [0xF7941E, 1.74, 1.12, 0.12], // orange
+    [0xFAD017, 2.13, 0.66, 0.11], // yellow
+    [0xD42B1E, 2.97, 0.69, 0.11]  // red
   ];
-  var LEAF_BASE = { x: -1.72, y: -1.46 };
+  var LEAF_PIVOT = { x: -0.15, y: -1.35 };
 
   var DEPTH = 0.55;
   var content = new THREE.Group();   // holds every mesh at authored positions
@@ -103,7 +106,7 @@
 
   function addLeaves() {
     LEAVES.forEach(function (L) {
-      var color = L[0], angle = L[1], len = L[2], wid = L[3], dx = L[4], dy = L[5];
+      var color = L[0], angle = L[1], len = L[2], wid = L[3];
       var s = new THREE.Shape();
       s.moveTo(0, 0);
       s.quadraticCurveTo(wid, len * 0.55, 0, len);
@@ -113,7 +116,7 @@
       var m = new THREE.MeshStandardMaterial({ color: color, roughness: 0.4, metalness: 0.05, emissive: color, emissiveIntensity: 0.0 });
       leafMats.push(m);
       var mesh = new THREE.Mesh(g, m);
-      mesh.position.set(LEAF_BASE.x + dx, LEAF_BASE.y + dy, 0);
+      mesh.position.set(LEAF_PIVOT.x, LEAF_PIVOT.y, 0);
       mesh.rotation.z = angle;
       content.add(mesh);
     });
@@ -130,10 +133,10 @@
     // shift so the text's bottom-left sits at the local origin, centred in depth
     tgeo.translate(-bb.min.x, -bb.min.y, -0.09);
     var mesh = new THREE.Mesh(tgeo, signMat);
-    var target = 2.75;                 // desired rendered width, under the mark
+    var target = 2.24;                 // measured width in assets/img/logo.png
     var sc = target / tw;
     mesh.scale.setScalar(sc);
-    mesh.position.set(-0.42, -1.5, 0.0);  // left edge / baseline, below the "M"
+    mesh.position.set(0.07, -1.25, 0.0);  // measured start x / baseline y
     content.add(mesh);
   }
 

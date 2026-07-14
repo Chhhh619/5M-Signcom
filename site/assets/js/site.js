@@ -49,15 +49,8 @@
   var yr = document.getElementById("year");
   if (yr) yr.textContent = new Date().getFullYear();
 
-  /* ---- prefill every WhatsApp link with the quotation checklist ---- */
-  var WA_MSG =
-    "Thank you for contacting 5M Signcom Sdn Bhd! If you need a quotation, kindly provide below:\n" +
-    "1) Artwork\n" +
-    "2) Size\n" +
-    "3) Qty\n" +
-    "4) Type of signage (sample picture)\n" +
-    "5) Picture where the sign need to install (if installation required)\n" +
-    "Tqvm.";
+  /* ---- prefill every WhatsApp link with a quick opener ---- */
+  var WA_MSG = "Hi, I am enquiring from 5msigncom.com.my";
   document.querySelectorAll('a[href*="wa.me"]').forEach(function (a) {
     var href = a.getAttribute("href");
     if (!href || /[?&]text=/.test(href)) return;
@@ -251,7 +244,7 @@
       gl_h1: "Installed and photographed on site",
       gl_lede: "Through 18 years in business, 5M Signcom has been trusted by clients from independent shops to national brands, completing over 1,000 signage projects end to end. Below are a few projects we are proud to showcase.",
       gl_tag: "Project gallery",
-      gl_all: "All projects",
+      gl_all: "All projects", gl_all_sub: "Every photo, one gallery", gl_all_cta: "View all →",
       gl_empty: "No projects in this category yet. Ask us and we'll send recent examples.",
 
       /* ---------- CONTACT ---------- */
@@ -260,7 +253,7 @@
       ct_lede: "Send a photo of your frontage on WhatsApp for the fastest reply, or use the form and we'll call you back.",
       tag_contact: "Contact",
       contact_h2a: "Get a ", contact_h2free: "free", contact_h2b: " quotation",
-      contact_intro: "Tell us the size and quantity and attach your artwork. A photo of where the sign will go helps us quote faster.",
+      contact_intro: "Attach your artwork and a sample picture. A photo of where the sign will go helps us quote faster.",
       info_head: "5M Signcom Sdn Bhd, 200801011102 (812390-K)",
       lbl_workshop: "Workshop & office", lbl_directions: "Open in Google Maps →",
       lbl_tel: "Telephone", lbl_fax: "Fax", lbl_email: "Email",
@@ -268,8 +261,6 @@
       f_name: "Name", f_company: "Company", f_phone: "Phone / WhatsApp", f_service: "Type of signage",
       o_notsure: "Not sure yet, advise me",
       f_artwork: "Artwork", f_artwork_hint: "Upload your logo or design — JPG, PNG or PDF",
-      f_size: "Size", f_size_hint: "e.g. 10 ft × 3 ft, or rough dimensions",
-      f_qty: "Quantity",
       f_sample: "Sample picture", f_sample_hint: "A photo of the signage style you have in mind",
       f_install: "Installation location", f_install_hint: "Photo of where the sign will go, if installation is needed",
       f_msg: "Anything else? Location, deadline, details",
@@ -398,7 +389,7 @@
       gl_h1: "Siap dipasang, difoto di tapak",
       gl_lede: "Sepanjang 18 tahun beroperasi, 5M Signcom dipercayai oleh pelanggan daripada kedai kecil hingga jenama besar, dengan lebih 1,000 projek papan tanda disiapkan dari mula hingga akhir. Berikut beberapa projek yang kami banggakan.",
       gl_tag: "Galeri projek",
-      gl_all: "Semua projek",
+      gl_all: "Semua projek", gl_all_sub: "Setiap foto, satu galeri", gl_all_cta: "Lihat semua →",
       gl_empty: "Belum ada projek dalam kategori ini. Tanya kami dan kami akan hantar contoh terkini.",
 
       ct_crumb: "Hubungi kami",
@@ -406,7 +397,7 @@
       ct_lede: "Hantar foto hadapan kedai anda melalui WhatsApp untuk jawapan terpantas, atau isi borang dan kami akan hubungi anda semula.",
       tag_contact: "Hubungi",
       contact_h2a: "Dapatkan sebut harga ", contact_h2free: "percuma", contact_h2b: "",
-      contact_intro: "Beritahu kami saiz dan kuantiti serta lampirkan karya seni anda. Foto lokasi pemasangan membantu kami sebut harga dengan lebih pantas.",
+      contact_intro: "Lampirkan karya seni dan gambar contoh anda. Foto lokasi pemasangan membantu kami sebut harga dengan lebih pantas.",
       info_head: "5M Signcom Sdn Bhd, 200801011102 (812390-K)",
       lbl_workshop: "Bengkel & pejabat", lbl_directions: "Buka di Google Maps →",
       lbl_tel: "Telefon", lbl_fax: "Faks", lbl_email: "E-mel",
@@ -414,8 +405,6 @@
       f_name: "Nama", f_company: "Syarikat", f_phone: "Telefon / WhatsApp", f_service: "Jenis papan tanda",
       o_notsure: "Belum pasti, nasihatkan saya",
       f_artwork: "Karya seni", f_artwork_hint: "Muat naik logo atau reka bentuk anda — JPG, PNG atau PDF",
-      f_size: "Saiz", f_size_hint: "cth. 10 kaki × 3 kaki, atau ukuran anggaran",
-      f_qty: "Kuantiti",
       f_sample: "Gambar contoh", f_sample_hint: "Foto gaya papan tanda yang anda inginkan",
       f_install: "Lokasi pemasangan", f_install_hint: "Foto tempat papan tanda akan dipasang, jika perlukan pemasangan",
       f_msg: "Apa-apa lagi? Lokasi, tarikh akhir, butiran",
@@ -544,7 +533,7 @@
       gl_h1: "实地安装，实景拍摄",
       gl_lede: "创业18年来，5M Signcom 深受大小客户信赖，从头到尾完成超过1,000个招牌项目。以下是我们引以为傲的部分项目。",
       gl_tag: "工程案例",
-      gl_all: "全部案例",
+      gl_all: "全部案例", gl_all_sub: "所有照片，一个相册", gl_all_cta: "查看全部 →",
       gl_empty: "此类别暂无案例。请联系我们，我们会发送近期实例。",
 
       ct_crumb: "联系我们",
@@ -552,7 +541,7 @@
       ct_lede: "WhatsApp 发送店面照片，回复最快；或填写表格，我们会回电给您。",
       tag_contact: "联系我们",
       contact_h2a: "获取", contact_h2free: "免费", contact_h2b: "报价",
-      contact_intro: "请告诉我们尺寸与数量，并附上您的设计稿。安装位置的照片能帮我们更快报价。",
+      contact_intro: "请附上您的设计稿与样图。安装位置的照片能帮我们更快报价。",
       info_head: "5M Signcom Sdn Bhd, 200801011102 (812390-K)",
       lbl_workshop: "厂房与办公室", lbl_directions: "在 Google 地图中打开 →",
       lbl_tel: "电话", lbl_fax: "传真", lbl_email: "电邮",
@@ -560,8 +549,6 @@
       f_name: "姓名", f_company: "公司", f_phone: "电话 / WhatsApp", f_service: "招牌类型",
       o_notsure: "还不确定，请给我建议",
       f_artwork: "设计稿", f_artwork_hint: "上传您的标志或设计稿 — JPG、PNG 或 PDF",
-      f_size: "尺寸", f_size_hint: "例如 10 尺 × 3 尺，或大致尺寸",
-      f_qty: "数量",
       f_sample: "样图", f_sample_hint: "您想要的招牌样式照片",
       f_install: "安装位置", f_install_hint: "招牌安装位置的照片（如需安装）",
       f_msg: "还有其他吗？地点、期限、细节",

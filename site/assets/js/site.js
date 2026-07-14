@@ -49,6 +49,21 @@
   var yr = document.getElementById("year");
   if (yr) yr.textContent = new Date().getFullYear();
 
+  /* ---- prefill every WhatsApp link with the quotation checklist ---- */
+  var WA_MSG =
+    "Thank you for contacting 5M Signcom Sdn Bhd! If you need a quotation, kindly provide below:\n" +
+    "1) Artwork\n" +
+    "2) Size\n" +
+    "3) Qty\n" +
+    "4) Type of signage (sample picture)\n" +
+    "5) Picture where the sign need to install (if installation required)\n" +
+    "Tqvm.";
+  document.querySelectorAll('a[href*="wa.me"]').forEach(function (a) {
+    var href = a.getAttribute("href");
+    if (!href || /[?&]text=/.test(href)) return;
+    a.setAttribute("href", href + (href.indexOf("?") === -1 ? "?" : "&") + "text=" + encodeURIComponent(WA_MSG));
+  });
+
   /* ---- contact form (demo, with inline validation) ---- */
   var form = document.getElementById("quoteForm");
   if (form) {
@@ -157,7 +172,7 @@
       tag_why: "The company",
       why_h2: "Why clients choose us",
       why1_h: "One roof, one team", why1_p: "Design, fabrication and installation happen in our own Shah Alam workshop. One team is responsible for your sign from first drawing to final handover.",
-      why2_h: "Since 2008", why2_p: "SSM-registered manufacturer 200801011102 (812390-K). Eighteen years of signboards still standing across the Klang Valley.",
+      why2_h: "Since 2008", why2_p: "Eighteen years of signboards and experience with 1000+ satisfied clients.",
       why3_h: "From plaques to pylons", why3_p: "Brass etching, water jet cutting, LED lettering, highway-scale pylons: every signage service under one roof, so complex jobs stay with one contractor.",
       stamp: "SSM 200801011102 · EST. 2008 · SHAH ALAM",
       tag_process: "How a job runs",
@@ -181,7 +196,7 @@
       ab_p5: "We also welcome collaboration and partnerships with retail sign shops to supply signage solutions at the lowest cost possible.",
       ab_hq_lbl: "Location", ab_hq_val: "Bukit Kemuning, Shah Alam", ab_hq_type: "Workshop & office", ab_hq_own: "● Our own facility",
       ab_why1_p: "Design, fabrication and installation happen in our own Shah Alam workshop. We ensure your project is handled professionally by our team from start to finish.",
-      ab_why2_p: "SSM-registered manufacturer 200801011102 (812390-K). Eighteen years of signboards manufacturing still standing strong and firm.",
+      ab_why2_p: "Eighteen years of signboards and experience with 1000+ satisfied clients.",
       ab_stats_tag: "At a glance",
       ab_stat1_n: "2008", ab_stat1_l: "Manufacturing since",
       ab_stat2_n: "18", ab_stat2_l: "Years in business",
@@ -244,17 +259,22 @@
       ct_h1: "Tell us what your premises need",
       ct_lede: "Send a photo of your frontage on WhatsApp for the fastest reply, or use the form and we'll call you back.",
       tag_contact: "Contact",
-      contact_h2: "Get a quotation",
-      contact_intro: "Give us the location, rough size and your deadline. A photo or drawing helps us quote faster.",
+      contact_h2a: "Get a ", contact_h2free: "free", contact_h2b: " quotation",
+      contact_intro: "Tell us the size and quantity and attach your artwork. A photo of where the sign will go helps us quote faster.",
       info_head: "5M Signcom Sdn Bhd, 200801011102 (812390-K)",
       lbl_workshop: "Workshop & office", lbl_directions: "Open in Google Maps →",
       lbl_tel: "Telephone", lbl_fax: "Fax", lbl_email: "Email",
       lbl_map: "Find us", map_note: "Bukit Kemuning, Seksyen 32, off Jalan Sungai Jerluh, a short drive from Kesas and the Kemuning interchange.",
-      f_name: "Name", f_company: "Company", f_phone: "Phone / WhatsApp", f_service: "What do you need?",
+      f_name: "Name", f_company: "Company", f_phone: "Phone / WhatsApp", f_service: "Type of signage",
       o_notsure: "Not sure yet, advise me",
-      f_msg: "Tell us about the job: location, size, deadline",
+      f_artwork: "Artwork", f_artwork_hint: "Upload your logo or design — JPG, PNG or PDF",
+      f_size: "Size", f_size_hint: "e.g. 10 ft × 3 ft, or rough dimensions",
+      f_qty: "Quantity",
+      f_sample: "Sample picture", f_sample_hint: "A photo of the signage style you have in mind",
+      f_install: "Installation location", f_install_hint: "Photo of where the sign will go, if installation is needed",
+      f_msg: "Anything else? Location, deadline, details",
       err_required: "Please fill this in",
-      form_note: "Design mockup: this form does not send yet. The live site will deliver enquiries to signcom5m@gmail.com.",
+      form_note: "Design mockup: this form does not send yet. The live site will deliver enquiries to signcom5m@yahoo.com.",
       form_ok: "✓ In the live website, your enquiry would now be on its way to 5M Signcom."
     },
 
@@ -303,7 +323,7 @@
       tag_why: "Syarikat",
       why_h2: "Kenapa pelanggan memilih kami",
       why1_h: "Satu bumbung, satu pasukan", why1_p: "Reka bentuk, fabrikasi dan pemasangan dibuat di bengkel kami sendiri di Shah Alam. Satu pasukan bertanggungjawab ke atas papan tanda anda dari lukisan pertama hingga serahan.",
-      why2_h: "Sejak 2008", why2_p: "Pengilang berdaftar SSM 200801011102 (812390-K). Lapan belas tahun papan tanda kami masih berdiri di seluruh Lembah Klang.",
+      why2_h: "Sejak 2008", why2_p: "Lapan belas tahun papan tanda dan pengalaman dengan 1000+ pelanggan berpuas hati.",
       why3_h: "Dari plak hingga pilon", why3_p: "Punaran tembaga, pemotongan water jet, huruf LED, pilon skala lebuh raya: setiap kemahiran papan tanda di bawah satu bumbung.",
       stamp: "SSM 200801011102 · SEJAK 2008 · SHAH ALAM",
       tag_process: "Perjalanan kerja",
@@ -326,7 +346,7 @@
       ab_p5: "Kami juga mengalu-alukan kerjasama dan perkongsian dengan kedai papan tanda runcit untuk membekalkan penyelesaian papan tanda pada kos serendah mungkin.",
       ab_hq_lbl: "Lokasi", ab_hq_val: "Bukit Kemuning, Shah Alam", ab_hq_type: "Bengkel & pejabat", ab_hq_own: "● Kemudahan sendiri",
       ab_why1_p: "Reka bentuk, fabrikasi dan pemasangan dibuat di bengkel kami sendiri di Shah Alam. Kami pastikan projek anda dikendalikan secara profesional oleh pasukan kami dari mula hingga siap.",
-      ab_why2_p: "Pengilang berdaftar SSM 200801011102 (812390-K). Lapan belas tahun dalam pembuatan papan tanda, masih teguh berdiri.",
+      ab_why2_p: "Lapan belas tahun papan tanda dan pengalaman dengan 1000+ pelanggan berpuas hati.",
       ab_stats_tag: "Sekilas pandang",
       ab_stat1_n: "2008", ab_stat1_l: "Mengilang sejak",
       ab_stat2_n: "18", ab_stat2_l: "Tahun beroperasi",
@@ -385,17 +405,22 @@
       ct_h1: "Beritahu kami keperluan premis anda",
       ct_lede: "Hantar foto hadapan kedai anda melalui WhatsApp untuk jawapan terpantas, atau isi borang dan kami akan hubungi anda semula.",
       tag_contact: "Hubungi",
-      contact_h2: "Dapatkan sebut harga",
-      contact_intro: "Beritahu kami lokasi, saiz anggaran dan tarikh akhir anda. Foto atau lukisan membantu kami sebut harga dengan lebih pantas.",
+      contact_h2a: "Dapatkan sebut harga ", contact_h2free: "percuma", contact_h2b: "",
+      contact_intro: "Beritahu kami saiz dan kuantiti serta lampirkan karya seni anda. Foto lokasi pemasangan membantu kami sebut harga dengan lebih pantas.",
       info_head: "5M Signcom Sdn Bhd, 200801011102 (812390-K)",
       lbl_workshop: "Bengkel & pejabat", lbl_directions: "Buka di Google Maps →",
       lbl_tel: "Telefon", lbl_fax: "Faks", lbl_email: "E-mel",
       lbl_map: "Cari kami", map_note: "Bukit Kemuning, Seksyen 32, dari Jalan Sungai Jerluh, tidak jauh dari Kesas dan susur Kemuning.",
-      f_name: "Nama", f_company: "Syarikat", f_phone: "Telefon / WhatsApp", f_service: "Apa yang anda perlukan?",
+      f_name: "Nama", f_company: "Syarikat", f_phone: "Telefon / WhatsApp", f_service: "Jenis papan tanda",
       o_notsure: "Belum pasti, nasihatkan saya",
-      f_msg: "Ceritakan tentang kerja ini: lokasi, saiz, tarikh akhir",
+      f_artwork: "Karya seni", f_artwork_hint: "Muat naik logo atau reka bentuk anda — JPG, PNG atau PDF",
+      f_size: "Saiz", f_size_hint: "cth. 10 kaki × 3 kaki, atau ukuran anggaran",
+      f_qty: "Kuantiti",
+      f_sample: "Gambar contoh", f_sample_hint: "Foto gaya papan tanda yang anda inginkan",
+      f_install: "Lokasi pemasangan", f_install_hint: "Foto tempat papan tanda akan dipasang, jika perlukan pemasangan",
+      f_msg: "Apa-apa lagi? Lokasi, tarikh akhir, butiran",
       err_required: "Sila isi ruangan ini",
-      form_note: "Contoh reka bentuk: borang ini belum berfungsi. Laman sebenar akan menghantar pertanyaan ke signcom5m@gmail.com.",
+      form_note: "Contoh reka bentuk: borang ini belum berfungsi. Laman sebenar akan menghantar pertanyaan ke signcom5m@yahoo.com.",
       form_ok: "✓ Di laman sebenar, pertanyaan anda kini sedang dihantar kepada 5M Signcom."
     },
 
@@ -444,7 +469,7 @@
       tag_why: "公司简介",
       why_h2: "客户为何选择我们",
       why1_h: "一站式团队", why1_p: "设计、制造、安装全在我们莎阿南的自家厂房完成。由同一支团队负责您的招牌，从图纸到交付。",
-      why2_h: "始于2008年", why2_p: "SSM注册制造商 200801011102 (812390-K)。十八年来，我们的招牌依然屹立在巴生谷各地。",
+      why2_h: "始于2008年", why2_p: "十八年招牌制作经验，1000+ 满意客户。",
       why3_h: "从铭牌到广告塔", why3_p: "铜牌蚀刻、水刀切割、LED立体字、大型立柱广告塔：所有招牌工艺齐全，复杂工程一家搞定。",
       stamp: "SSM 200801011102 · 始于2008 · 莎阿南",
       tag_process: "工程流程",
@@ -467,7 +492,7 @@
       ab_p5: "我们也欢迎与招牌零售同行合作结盟，以尽可能低的成本供应招牌解决方案。",
       ab_hq_lbl: "地点", ab_hq_val: "莎阿南武吉哥文宁", ab_hq_type: "厂房与办公室", ab_hq_own: "● 自家厂房",
       ab_why1_p: "设计、制造、安装全在我们莎阿南的自家厂房完成。我们确保您的项目由自家团队专业跟进，从开工到完工。",
-      ab_why2_p: "SSM注册制造商 200801011102 (812390-K)。十八年招牌制造经验，屹立不倒。",
+      ab_why2_p: "十八年招牌制作经验，1000+ 满意客户。",
       ab_stats_tag: "一览",
       ab_stat1_n: "2008", ab_stat1_l: "制造始于",
       ab_stat2_n: "18", ab_stat2_l: "经营年数",
@@ -526,17 +551,22 @@
       ct_h1: "告诉我们您的店面需要什么",
       ct_lede: "WhatsApp 发送店面照片，回复最快；或填写表格，我们会回电给您。",
       tag_contact: "联系我们",
-      contact_h2: "获取报价",
-      contact_intro: "请告诉我们地点、大致尺寸与期限。照片或图纸能帮我们更快报价。",
+      contact_h2a: "获取", contact_h2free: "免费", contact_h2b: "报价",
+      contact_intro: "请告诉我们尺寸与数量，并附上您的设计稿。安装位置的照片能帮我们更快报价。",
       info_head: "5M Signcom Sdn Bhd, 200801011102 (812390-K)",
       lbl_workshop: "厂房与办公室", lbl_directions: "在 Google 地图中打开 →",
       lbl_tel: "电话", lbl_fax: "传真", lbl_email: "电邮",
       lbl_map: "找到我们", map_note: "武吉哥文宁，第32区，位于 Jalan Sungai Jerluh，距 Kesas 高速与 Kemuning 交汇处不远。",
-      f_name: "姓名", f_company: "公司", f_phone: "电话 / WhatsApp", f_service: "您需要什么服务？",
+      f_name: "姓名", f_company: "公司", f_phone: "电话 / WhatsApp", f_service: "招牌类型",
       o_notsure: "还不确定，请给我建议",
-      f_msg: "请描述工程：地点、尺寸、期限",
+      f_artwork: "设计稿", f_artwork_hint: "上传您的标志或设计稿 — JPG、PNG 或 PDF",
+      f_size: "尺寸", f_size_hint: "例如 10 尺 × 3 尺，或大致尺寸",
+      f_qty: "数量",
+      f_sample: "样图", f_sample_hint: "您想要的招牌样式照片",
+      f_install: "安装位置", f_install_hint: "招牌安装位置的照片（如需安装）",
+      f_msg: "还有其他吗？地点、期限、细节",
       err_required: "请填写此项",
-      form_note: "设计示范：此表格暂不发送。正式网站将把询价发送至 signcom5m@gmail.com。",
+      form_note: "设计示范：此表格暂不发送。正式网站将把询价发送至 signcom5m@yahoo.com。",
       form_ok: "✓ 在正式网站上，您的询价此刻已发送给 5M Signcom。"
     }
   };

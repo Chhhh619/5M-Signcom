@@ -11,6 +11,20 @@
   var cards = document.querySelectorAll(".proj-item[data-cat]");
   if (!data || !cards.length) return;
 
+  /* data-cat may be a single key ("parkson") or a comma-separated group
+     ("signboard,3d,cutout") — gather every photo across the listed keys,
+     keeping first-seen order and dropping duplicates shared between them. */
+  function imagesFor(catAttr) {
+    var out = [], seen = {};
+    (catAttr || "").split(",").forEach(function (raw) {
+      var k = raw.trim();
+      (data[k] || []).forEach(function (src) {
+        if (!seen[src]) { seen[src] = 1; out.push(src); }
+      });
+    });
+    return out;
+  }
+
   /* ---- build the lightbox DOM once (eagerly, so site.js i18n can reach it) ---- */
   var lb = document.createElement("div");
   lb.className = "lb";
@@ -72,8 +86,8 @@
   }
 
   function open(cat, projLabel) {
-    var imgs = data[cat];
-    if (!imgs || !imgs.length) return;
+    var imgs = imagesFor(cat);
+    if (!imgs.length) return;
     setImgs = imgs;
     label = projLabel || cat;
     lastFocus = document.activeElement;
@@ -134,15 +148,17 @@
     card.setAttribute("aria-haspopup", "dialog");
     // keep the photo-count badge in sync with the manifest
     var countEl = card.querySelector(".gl-count");
-    var set = data[card.getAttribute("data-cat")];
-    if (countEl && set) countEl.textContent = set.length;
+    var set = imagesFor(card.getAttribute("data-cat"));
+    if (countEl && set.length) countEl.textContent = set.length;
     function activate() {
-      // card caption (gallery page) or the service card's heading (services page)
+      // caption (gallery page), the service sheet's heading (services page),
+      // or the card's own heading (home service groups)
       var titleEl = card.querySelector(".sheet-block b");
       if (!titleEl) {
         var sheet = card.closest ? card.closest(".svc-sheet") : null;
         if (sheet) titleEl = sheet.querySelector("h3");
       }
+      if (!titleEl) titleEl = card.querySelector("h3");
       open(card.getAttribute("data-cat"), titleEl ? titleEl.textContent : "");
     }
     card.addEventListener("click", activate);

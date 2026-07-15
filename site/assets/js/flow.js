@@ -89,16 +89,18 @@
     for (var i = 0; i < N - 1; i++) {
       var A = r[i], B = r[i + 1], s, e, c1, c2, dy;
       if (singleCol) {
-        s = { x: A.x + A.w * 0.5, y: A.bottom };
-        e = { x: B.x + B.w * 0.5, y: B.y };
+        // Stacked: a short arc that leaves one card and lands on the next,
+        // alternating side to side. It starts and ends off-centre so the
+        // curve travels diagonally and the arrowhead (placed at the END,
+        // see headAt below) points into the card it is leading to.
+        var dir = (i % 2 === 0) ? 1 : -1;
+        var off = Math.min(52, A.w * 0.14);
+        s = { x: A.x + A.w * 0.5 + off * dir, y: A.bottom };
+        e = { x: B.x + B.w * 0.5 - off * dir * 0.55, y: B.y };
         dy = e.y - s.y;
-        // the sideways bow has to stay small next to the vertical gap it spans,
-        // or the connector reads as a hook jutting out of the card rather than a
-        // line running between two — on a phone that gap is only ~50px
-        var bow = (i % 2 === 0 ? 1 : -1) *
-          Math.min(44, A.w * 0.30, Math.abs(dy) * 0.42);
-        c1 = { x: s.x + bow, y: s.y + dy * 0.45 };
-        c2 = { x: e.x + bow, y: e.y - dy * 0.45 };
+        var bow = dir * Math.min(26, Math.abs(dy) * 0.34);
+        c1 = { x: s.x + bow, y: s.y + dy * 0.55 };
+        c2 = { x: e.x + bow, y: e.y - dy * 0.32 };
       } else {
         if (B.x > A.x + 4) {                    // stepping right
           s = { x: A.x + A.w * 0.62, y: A.bottom };
@@ -111,7 +113,14 @@
         c1 = { x: s.x, y: s.y + dy * 0.5 };
         c2 = { x: e.x, y: e.y - dy * 0.5 };
       }
-      pieces.push({ type: "line", arrow: true, d: curvePath(s, c1, c2, e) });
+      // Wide layout keeps the design's mid-curve arrowhead: the sweep is long
+      // and mostly sideways, so a head halfway along reads as travel. Stacked,
+      // the run is short and vertical — a head halfway along just floats there
+      // with line continuing past it, so it goes on the end instead.
+      pieces.push({
+        type: "line", arrow: true, headAt: singleCol ? "end" : "mid",
+        d: curvePath(s, c1, c2, e)
+      });
     }
 
     pieces.push({
@@ -164,12 +173,12 @@
 
       var head = null;
       if (pc.arrow) {
-        // arrowhead rides the midpoint of the connector, angled to the tangent
         var total = line.getTotalLength();
-        var mid = line.getPointAtLength(total / 2);
-        var ahead = line.getPointAtLength(Math.min(total, total / 2 + 1));
+        var at = pc.headAt === "end" ? total : total / 2;
+        var tip = line.getPointAtLength(at);
+        var back = line.getPointAtLength(Math.max(0, at - 1.5));
         head = el("path", {
-          d: arrowHead({ x: mid.x, y: mid.y }, Math.atan2(ahead.y - mid.y, ahead.x - mid.x), 12),
+          d: arrowHead(tip, Math.atan2(tip.y - back.y, tip.x - back.x), 12),
           fill: accent
         });
         svg.appendChild(head);

@@ -280,7 +280,8 @@ h2{font-size:clamp(28px,3.4vw,40px);margin-bottom:14px;}
   margin-top:8px;padding-bottom:46px;margin-bottom:44px;border-bottom:1px solid var(--line);
 }
 .cidb-facts{
-  display:flex;flex-wrap:wrap;gap:12px 34px;margin:22px 0 26px;
+  display:grid;grid-template-columns:repeat(3,auto);justify-content:start;
+  gap:12px 34px;margin:22px 0 26px;
   font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--steel);
 }
 .cidb-facts span span{display:block;margin-bottom:3px;}
@@ -529,9 +530,11 @@ footer{background:var(--ink);color:#B9BDC6;padding:44px 0 30px;font-size:14.5px;
   .prose-grid{grid-template-columns:1fr;gap:30px;}
   /* the tagline plate is sized to its own text in the two-column layout; once
      stacked it's alone on its row, so let it span rather than leave a gap */
-  .prose .tag-sign{display:block;max-width:none;}
-  .cidb{grid-template-columns:1fr;gap:28px;}
-  .cidb-doc{justify-self:start;max-width:260px;}
+  .prose .tag-sign{display:block;max-width:none;text-align:center;}
+  /* keep the certificate beside the copy on tablets — stacking it left a
+     small orphaned box with a column of dead space next to it — just tighter */
+  .cidb{grid-template-columns:1.4fr .6fr;gap:30px;}
+  .cidb-doc{max-width:210px;}
   .stat-row{grid-template-columns:1fr 1fr;}
   .install-grid{grid-template-columns:1fr;gap:30px;}
   .install-photos{height:440px;}
@@ -552,6 +555,12 @@ footer{background:var(--ink);color:#B9BDC6;padding:44px 0 30px;font-size:14.5px;
   .filterbar{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px;}
   .filterbar::-webkit-scrollbar{display:none;}
   .filterbar button{white-space:nowrap;flex:0 0 auto;}
+  /* no room for two columns: stack, and centre the certificate so it reads as
+     part of the block rather than an offcut left hanging in the corner */
+  .cidb{grid-template-columns:1fr;gap:24px;padding-bottom:36px;margin-bottom:34px;}
+  .cidb-facts{grid-template-columns:1fr 1fr;gap:16px 24px;margin:20px 0 22px;}
+  .cidb-btn{width:100%;text-align:center;}
+  .cidb-doc{justify-self:center;max-width:250px;box-shadow:6px 6px 0 rgba(22,24,29,.06);}
 }
 @media (max-width:640px){
   /* --- mobile rhythm pass: tighter, deliberate spacing --- */

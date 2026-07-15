@@ -14,7 +14,7 @@ window.GALLERY = {
   "assets/img/gallery/parkson/parkson-04.jpg",
   "assets/img/gallery/parkson/parkson-05.jpg",
   "assets/img/gallery/parkson/parkson-06.jpg",
-  "assets/img/gallery/parkson/parkson-07.png"
+  "assets/img/gallery/parkson/parkson-07.webp"
  ],
  "aicb": [
   "assets/img/gallery/aicb/AICB1.jpeg",

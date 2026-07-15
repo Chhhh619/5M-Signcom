@@ -138,19 +138,30 @@ also uncommitted: `parkson-01.jpg` (modified), `parkson-07.jpeg`→`parkson-07.p
    grandflexible thumbs from the real logos (scratchpad script: flatten→trim
    whitespace→fit into a 760×420 inner box→centre on 1200×900 white). **Update both
    places whenever a brand logo changes.**
-5. **Midhills is now the ONLY remaining screenshot crop, and is genuinely blocked.**
-   Exhausted: `lbs.com.my/property/midhills/` hard-404s (confirmed via curl too — the
-   URL in search results is stale; that page only carries LBS *corporate* logos);
-   `midhillsgenting.com` has no logo image (text-only header); the FB page avatar
-   (`graph.facebook.com/midhills.my/picture?width=800`) is a building photo — though it
-   does confirm the identity: **green serif "MIDHILLS" wordmark with a small LBS mark
-   above**. The client-supplied `MIDHILLS/midhills-logo.png` is NOT usable as a logo:
-   it's an artistic shallow-DOF photo of the physical letters, measured at only **5.8%
-   of pixels darker than 200** — the middle letters (D-H-I-L-L) have no contrast at all
-   and it renders as an illegible green smudge at marquee size (test render:
-   scratchpad `midhills_marquee_test.png`). It'd make a nice *gallery photo* (it sits in
-   the gallery folder, and is 5.4 MB so would need downsizing first) but ask the client
-   before wiring it in either way. **Ask the client to email the actual Midhills logo.**
+5. **Midhills RESOLVED — there are now ZERO screenshot-crop logos left.** All 11 brands
+   show real, clean marks in both the marquee and the gallery. History worth keeping:
+   web sourcing was a dead end (`lbs.com.my/property/midhills/` hard-404s — the URL in
+   search results is stale and only carries LBS *corporate* logos; `midhillsgenting.com`
+   has a text-only header; the FB avatar `graph.facebook.com/midhills.my/picture?width=800`
+   is a building photo, though it usefully confirmed the identity as a green serif
+   wordmark). The client's FIRST `midhills-logo.png` was an artistic shallow-DOF photo
+   of the physical letters — unusable, only **5.8% of pixels darker than 200**, an
+   illegible smudge at 38px. They then supplied a **clean green serif wordmark** (same
+   filename, 3.7 MB) which measures **22.5%** — that's the one now in use. Generated
+   from it: `logos/brands/midhills.png` (281×96, white→alpha derived from luminance so
+   the anti-aliased edges don't fringe) and `gallery/thumbs/midhills.png` (1200×900).
+   **Contrast check is a cheap gate for any future logo drop:** flatten→trim→measure the
+   share of pixels darker than 200; under ~10% means it won't read at marquee size.
+6. **Image weight policy (new).** `parkson-07` arrived as a 7.7 MB PNG — a *photograph*
+   in a lossless format with a fully-opaque alpha channel. Converted to
+   **`parkson-07.webp`, 2160×1014, q82 = 227 KB (34× smaller, PSNR 39 dB, visually
+   identical at 2× zoom)** and the manifest re-pointed. Client explicitly chose WebP
+   @2160 over full-res after being shown the numbers. **Rules of thumb for this repo:**
+   photos → WebP (~36% smaller than JPEG at equal quality; safe since Safari 14/2020,
+   and CSP `img-src 'self'` is format-agnostic); PNG only for flat graphics/real
+   transparency; the lightbox renders at **1080×507 CSS px**, so ~2160px wide is the
+   sensible ceiling (covers 2× retina) — anything beyond that is bytes nobody sees.
+   No gallery image now exceeds 1 MB; keep it that way.
 
 ## Round 9 (cache ?v=20260716a) — 2026-07-15 — logo colours, 3D fix, gallery-all, mobile lightbox
 Committed as `98cc794` then `5dad8bb`, pushed to `origin/staging`. Two back-to-back
@@ -242,10 +253,15 @@ element a client screenshot is circling, ask for a marked-up screenshot before a
     404s, check `git ls-files` + `git cat-file -s HEAD:<path>` before assuming it was
     never committed — it might just be missing from disk the same way.
 
-**Next step / open items:** Midhills logo still needs sourcing (retry the LBS fetch,
-or ask the client to email the file directly). D'Laman Rasa likely has no logo to
-find — confirm with the client whether the current photo crop is acceptable as final.
-No other pending asks from the client as of session end.
+**Next step / open items:** No pending client asks as of session end. The brand-logo
+workstream that ran across rounds 9–10 is now **CLOSED** — all 11 brands have real
+logos in both places. Two loose ends, neither blocking: (a) the client's
+`MIDHILLS/midhills-logo.png` source file (3.7 MB) is deliberately left **untracked** —
+it's only the source the marquee/thumb were generated from, nothing references it;
+delete it or downsize+add it as a gallery photo if the client wants the artwork shown.
+(b) The design project `d6538c74-ed82-48d6-85e4-fa2ff3c36410` also contains a
+`Hero Section.dc.html` that has not been looked at — the client only asked for the
+process flow.
 
 ## Round 7 (cache ?v=20260713n) — gallery re-cut to direct customers ONLY
 User purged photos of retailer-collab/confidential jobs. Folder presence in

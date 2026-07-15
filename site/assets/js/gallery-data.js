@@ -124,7 +124,8 @@ window.GALLERY = {
   "assets/img/proj-3d-leadresidences.jpg",
   "assets/img/gallery/muji/muji-01.jpg",
   "assets/img/gallery/3dled-05.jpg",
-  "assets/img/gallery/3dled-07.jpg"
+  "assets/img/gallery/3dled-07.jpg",
+  "assets/img/proj-3dled-learninghub.jpg"
  ],
  "3dled": [
   "assets/img/gallery/nikoneko/nikoneko-01.jpg",
@@ -137,7 +138,10 @@ window.GALLERY = {
   "assets/img/gallery/3dled-11.jpg",
   "assets/img/gallery/D Laman Rasa/D LAMAN RASA4.jpeg",
   "assets/img/gallery/D Laman Rasa/D LAMAN RASA6.jpeg",
-  "assets/img/gallery/D Laman Rasa/D LAMAN RASA7.jpeg"
+  "assets/img/gallery/D Laman Rasa/D LAMAN RASA7.jpeg",
+  "assets/img/gallery/parkson/parkson-07.webp",
+  "assets/img/gallery/parkson/parkson-05.jpg",
+  "assets/img/gallery/parkson/parkson-04.jpg"
  ],
  /* NB: sfc/sfc-01.jpg is the same file as lightbox-07.jpg above, so it is
     deliberately not repeated here — it still appears in the "sfc" set.
@@ -156,9 +160,6 @@ window.GALLERY = {
  "cutout": [
   "assets/img/gallery/cutout-04.jpg",
   "assets/img/proj-cutout-islandvilla.jpg",
-  "assets/img/proj-3dled-learninghub.jpg",
-  "assets/img/gallery/um.jpg",
-  "assets/img/gallery/mygenius2.jpg",
   "assets/img/gallery/cutout-01.jpg",
   "assets/img/gallery/cutout-03.jpg",
   "assets/img/gallery/acrylic-02.jpg",
@@ -172,7 +173,9 @@ window.GALLERY = {
   "assets/img/gallery/acrylic-07.jpg",
   "assets/img/gallery/acrylic-08.jpg",
   "assets/img/gallery/acrylic-09.jpg",
-  "assets/img/gallery/aidil.jpg"
+  "assets/img/gallery/aidil.jpg",
+  "assets/img/gallery/um.jpg",
+  "assets/img/gallery/mygenius2.jpg"
  ],
  "etching": [
   "assets/img/proj-etching-doosan.jpg",

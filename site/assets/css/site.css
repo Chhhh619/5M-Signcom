@@ -160,9 +160,9 @@ h2{font-size:clamp(28px,3.4vw,40px);margin-bottom:14px;}
 .clients-track{display:flex;align-items:center;gap:52px;width:max-content;animation:clients-scroll 90s linear infinite;}
 .clients-marquee:hover .clients-track{animation-play-state:paused;}
 @media (prefers-reduced-motion:reduce){.clients-track{animation:none;}}
-.client-logo{flex:0 0 auto;height:38px;display:flex;align-items:center;}
+.client-logo{flex:0 0 auto;height:52px;display:flex;align-items:center;}
 .client-logo img{
-  height:100%;width:auto;max-width:150px;display:block;object-fit:contain;
+  height:100%;width:auto;max-width:205px;display:block;object-fit:contain;
 }
 .client-text{
   font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:600;font-size:19px;
@@ -173,8 +173,8 @@ h2{font-size:clamp(28px,3.4vw,40px);margin-bottom:14px;}
 @keyframes clients-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 @media (max-width:640px){
   .clients-track{gap:34px;animation-duration:65s;}
-  .client-logo{height:28px;}
-  .client-logo img{max-width:100px;}
+  .client-logo{height:38px;}
+  .client-logo img{max-width:140px;}
   .client-text{font-size:15px;}
 }
 
@@ -396,7 +396,12 @@ h2{font-size:clamp(28px,3.4vw,40px);margin-bottom:14px;}
   font:inherit;cursor:pointer;background:none;border:1px solid rgba(255,255,255,.4);
   color:#fff;width:46px;height:46px;font-size:22px;line-height:1;touch-action:manipulation;
 }
-.lb button:hover{background:var(--red);border-color:var(--red);}
+/* only fill on real hover — on a touch screen :hover sticks after a tap, which
+   left the button sitting there filled in until you tapped elsewhere */
+@media (hover:hover){
+  .lb button:hover{background:var(--red);border-color:var(--red);}
+}
+.lb button:active{background:var(--red);border-color:var(--red);}
 .lb button:focus-visible{outline:2px solid #fff;outline-offset:2px;}
 .lb-close{position:absolute;top:18px;right:18px;}
 .lb-prev,.lb-next{position:absolute;top:50%;transform:translateY(-50%);}
@@ -421,7 +426,10 @@ body.lb-open{overflow:hidden;}
   }
   .lb .lb-prev{left:0;justify-content:flex-start;padding-left:6px;}
   .lb .lb-next{right:0;justify-content:flex-end;padding-right:6px;}
-  .lb .lb-prev:active,.lb .lb-next:active{background:rgba(255,255,255,.1);}
+  /* these zones are ~30% of the photo, so filling them red reads as a slab
+     covering the image — they only flash a faint wash while actually pressed */
+  .lb .lb-prev:hover,.lb .lb-next:hover{background:none;border:none;}
+  .lb .lb-prev:active,.lb .lb-next:active{background:rgba(255,255,255,.14);border:none;}
 }
 
 /* contact */
@@ -487,7 +495,10 @@ footer{background:var(--ink);color:#B9BDC6;padding:44px 0 30px;font-size:14.5px;
 /* ---------- responsive ---------- */
 @media (max-width:960px){
   .hero-inner{grid-template-columns:1fr;gap:44px;padding-top:52px;padding-bottom:60px;}
-  .hero-sheet{justify-self:start;}
+  /* once the hero stacks, the photo is the only thing on its row — let it span
+     the full container instead of staying capped at its two-column width, which
+     left an awkward gap on tablets and unfolded foldables */
+  .hero-sheet{justify-self:stretch;max-width:none;}
   .svc-grid{grid-template-columns:1fr;}
   .svc-sheets{grid-template-columns:1fr;}
   .svc-hero{grid-template-columns:1fr;gap:34px;}

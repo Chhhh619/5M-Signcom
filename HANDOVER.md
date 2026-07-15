@@ -1,17 +1,28 @@
 # 5M Signcom site — handover
 
-**Session ended:** 2026-07-13.
+**Session ended:** 2026-07-15 (rounds 9–10).
 
 Project: `C:\Users\drax1\Downloads\5M\site\` — static multi-page HTML/CSS/vanilla-JS
 site for 5M Signcom Sdn Bhd (Shah Alam signage manufacturer). No build step, no
 framework. i18n via `assets/js/site.js` (`I18N` dict, `data-i18n` attrs, en/ms/zh).
+Git repo: branch `staging` tracks `origin/staging` (GitHub `Chhhh619/5M-Signcom`),
+deploys to a Vercel branch-preview URL (`*-git-staging-*.vercel.app`, gated behind
+Vercel's own SSO — cannot be fetched/verified by an agent without logging in).
 
-Dev server: `python -m http.server 8080` from `C:\Users\drax1\Downloads\5M\site`
-(background task, may need restarting next session). Site at `http://localhost:8080/`.
+Dev server: `python -m http.server <port>` from `C:\Users\drax1\Downloads\5M\site`
+(background task, dies when its terminal/session closes — restart each session; port
+varies by session, 8137 was last used, not reserved). Then `http://localhost:<port>/`.
+For visual verification without the claude-in-chrome extension, `playwright-core` is
+installed in the scratchpad dir and can drive real system Chrome headless
+(`executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"`,
+`args:['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']` for
+software WebGL — needed to screenshot the 3D viewer). **Use `waitUntil:'domcontentloaded'`
++ explicit `waitForTimeout`, not `'networkidle'`** — contact.html's Google Maps iframe
+polls forever and networkidle hangs indefinitely.
 
 ## Cache-busting — READ THIS FIRST
 Every `<link rel="stylesheet">` and `<script src=...>` tag across all 5 HTML pages
-carries `?v=20260713c` (current as of session end; run the pending version bump below
+carries `?v=20260716b` (current as of session end; run the pending version bump below
 if you change assets). **Any time you edit `site.css`, `site.js`, `viewer3d.js`,
 `gallery.js`, or `gallery-data.js`, bump this version string in all 5 HTML files and
 keep CSS/JS in sync.** Check current value with `grep -ho 'v=2026[0-9a-z]*' site/*.html`.
@@ -68,6 +79,173 @@ Applies to all three languages. (Also in auto-memory as `no-punchy-taglines`.)
 
 ## Standing instruction from user
 Update this handover doc when session usage reaches ~85%, every session.
+
+## Round 10 (cache ?v=20260716b) — 2026-07-15 — D'Laman Rasa removed, gallery CTA, Design-MCP process flow
+NOT yet committed at time of writing (client had not asked). Client-supplied files
+also uncommitted: `parkson-01.jpg` (modified), `parkson-07.jpeg`→`parkson-07.png`
+(swapped), `MIDHILLS/midhills-logo.png` (new — see logo note below).
+
+1. **D'Laman Rasa removed as a brand, photos re-homed.** Client: it's a DBKL public
+   hawker centre, not a brand worth showing as a client. Gone from the gallery grid
+   and the trusted-by marquee (all 6 marquee copies). Its 3 photos moved into the
+   **`3dled`** (Neon / LED signs) type set, so they still show under that service —
+   count 6→9, services.html `.gl-count` fallback updated to match. Brand key deleted
+   from `gallery-data.js`. Orphaned `logos/brands/dlamanrasa.png` +
+   `gallery/thumbs/dlamanrasa.png` were `git rm`'d (zero refs; recoverable from git).
+   The 3 JPEGs in `gallery/D Laman Rasa/` MUST stay — they're referenced by 3dled now.
+2. **"All projects" tile → CTA button.** The dark 63-count tile is gone; there's now a
+   red `See all our projects →` button in the section header row (`.sec-tag-cta`
+   modifier + `.gl-all-btn`), matching the home page's "See all our services →". It's
+   a real `<button class="proj-item" data-cat="…11 keys…">`. Total is now **60** photos
+   (63 − 3 D'Laman Rasa).
+   - **Two gallery.js changes this needed** (both matter if more buttons get added):
+     (a) a native `<button>` already fires click on Enter/Space, so wiring the
+     fake-button `keydown` handler onto it double-fired `activate()` — gallery.js now
+     skips role/tabindex/keydown when `card.tagName === "BUTTON"`.
+     (b) the lightbox caption fell back to the raw `data-cat` string (would have shown
+     the whole comma list); gallery.js now reads an optional `data-label` first. That
+     label stays translated via the site's existing `data-i18n-attr="data-label:gl_all"`
+     machinery — a neat trick worth reusing: `data-i18n-attr` can set ANY attribute
+     from a dict key, not just aria-label.
+   - i18n: `gl_all_sub` deleted (tile-only), `gl_all_cta` re-worded to the button text,
+     `gl_all` still the lightbox caption.
+3. **Process flow section rebuilt from a Claude Design component.** Client shared
+   `Process Flow.dc.html` from design project `d6538c74-ed82-48d6-85e4-fa2ff3c36410`,
+   pulled via the **DesignSync MCP** (`method:"get_file"`; `list_files` first to see
+   the tree — that project also holds a `Hero Section.dc.html` not yet used).
+   **The design could not be dropped in as-is** — it assumed things this site forbids:
+   Google Fonts `<link>` (CSP `font-src 'self'` + `style-src 'self'`), an inline
+   `<script>` with a `DCLogic` class + props system (CSP `script-src 'self'`), and its
+   own palette. Adaptation: kept the *geometry maths verbatim* (bowed cubic connectors,
+   arrowhead placed at each curve's midpoint via `getPointAtLength`, ring+dot bookends,
+   26px stubs, `singleCol` detection at `|rects[0].x - rects[1].x| < 8`), and moved it
+   into **`assets/js/flow.js`** (previously an unused WIP file, now rewritten and
+   ACTUALLY LOADED in index.html for the first time). Type/colour now come from
+   site.css tokens (`--red`), fonts stay Barlow/Barlow Condensed.
+   - Markup: `#process .flow` is now a 2-col CSS grid with 4 `<article class="flow-step">`
+     zigzagging (`:nth-of-type(1..4)` → col1/row1, col2/row2, col1/row3, col2/row4) plus
+     one `<svg class="flow-thread">` overlay. **`:nth-of-type` is deliberate** — it counts
+     articles only, so the sibling `<svg>` doesn't shift the numbering the way
+     `:nth-child` would. Mobile (≤640) forces all cards to col1 and flow.js's
+     `singleCol` branch draws an S-curve thread instead.
+   - All the old `.flow-arrow` / `.flow-arrow-m` / `.flow-rev` / `.fa-line` / `.fa-tip`
+     inline SVGs + CSS from rounds 5–6 are DELETED — superseded by the JS thread.
+   - Verified: 8 paths + 4 circles rendered, desktop + 390px mobile, 0 console errors.
+4. **Gallery THUMBNAILS were still crops — round 9 only fixed the marquee.** Easy trap:
+   the brand logos live in TWO places, `logos/brands/*.png` (marquee, ~38px tall) and
+   `gallery/thumbs/*.png` (gallery cards, 1200×900 white canvas). Round 9 replaced only
+   the former, so the gallery still showed photo-crops. Regenerated ideas/8days/
+   grandflexible thumbs from the real logos (scratchpad script: flatten→trim
+   whitespace→fit into a 760×420 inner box→centre on 1200×900 white). **Update both
+   places whenever a brand logo changes.**
+5. **Midhills is now the ONLY remaining screenshot crop, and is genuinely blocked.**
+   Exhausted: `lbs.com.my/property/midhills/` hard-404s (confirmed via curl too — the
+   URL in search results is stale; that page only carries LBS *corporate* logos);
+   `midhillsgenting.com` has no logo image (text-only header); the FB page avatar
+   (`graph.facebook.com/midhills.my/picture?width=800`) is a building photo — though it
+   does confirm the identity: **green serif "MIDHILLS" wordmark with a small LBS mark
+   above**. The client-supplied `MIDHILLS/midhills-logo.png` is NOT usable as a logo:
+   it's an artistic shallow-DOF photo of the physical letters, measured at only **5.8%
+   of pixels darker than 200** — the middle letters (D-H-I-L-L) have no contrast at all
+   and it renders as an illegible green smudge at marquee size (test render:
+   scratchpad `midhills_marquee_test.png`). It'd make a nice *gallery photo* (it sits in
+   the gallery folder, and is 5.4 MB so would need downsizing first) but ask the client
+   before wiring it in either way. **Ask the client to email the actual Midhills logo.**
+
+## Round 9 (cache ?v=20260716a) — 2026-07-15 — logo colours, 3D fix, gallery-all, mobile lightbox
+Committed as `98cc794` then `5dad8bb`, pushed to `origin/staging`. Two back-to-back
+sessions covering the client's numbered feedback list; second session corrected two
+things the first got wrong (see "reversed" note below) — **when in doubt about which
+element a client screenshot is circling, ask for a marked-up screenshot before acting.**
+
+1. **Client-logo marquee is now full colour** — removed `filter:grayscale(1)
+   contrast(1.75) brightness(1.22); mix-blend-mode:multiply` from `.client-logo img`
+   (site.css). Client explicitly wants brand colours (MUJI red, etc.), not monotone.
+2. **3 of 5 remaining screenshot-crop logos replaced with real official marks**
+   (downloaded with client's explicit per-file approval — filename/source/size stated
+   first, per this environment's download-permission rule): Grand Flexible Bags
+   (`grandflexiblebags.com`, green globe+GFB badge), Eight Days Salon
+   (`eightdayssalon.com`, black ED monogram), IDEAS Hotel (`ideaskl.com` — filename
+   said "White" but is actually gold-on-transparent, reads fine on white, no dark-chip
+   treatment needed). **Still crops: Midhills** (LBS Bina's `lbs.com.my/property/
+   midhills/` page 404s through the WebFetch tool despite existing per web search —
+   worth a retry or manual fetch) and **D'Laman Rasa** (this is a DBKL-run public
+   hawker centre / Pusat Penjaja, not a branded business — it has no corporate logo;
+   the neon signage lettering photo is its only visual identity, may be unfixable).
+3. **3D logo viewer (`viewer3d.js`) rebuilt to show the FULL logo**, not just "5M":
+   extruded 5M mark (unchanged polygon data) + "SIGNCOM" as real `THREE.TextGeometry`
+   (font: bundled `assets/fonts/helvetiker_bold.typeface.json`) + 5 coloured leaf
+   ribbons, fanning from one shared pivot point. **Root-cause debugging note**: client
+   reported "the 5 looks broken/shattered" — I first suspected the hand-traced "5"
+   polygon self-intersects (it doesn't; verified with a segment-crossing check in
+   scratchpad Python, zero self-intersections, valid simple CCW polygon). Actual cause:
+   the leaf ribbons were positioned with a hardcoded guess (`LEAF_BASE={x:-1.72,...}`)
+   that placed them spatially inside the "5" glyph's volume, so the two meshes
+   z-fought/overlapped at render time — that's what read as "broken". Fixed by pixel-
+   measuring the real `logo.png` (scratchpad `measure_logo.py`, `logo_grid.png` — a
+   3×-upscaled gridded reference image, reusable if the logo composition changes
+   again) to get the true pivot point and per-leaf angle/length, converted to Three.js
+   `rotation.z` convention (`theta = atan2(dy,dx) - π/2`, since the blade shape is
+   authored along local +Y). New pivot `{x:-0.15,y:-1.35}` sits cleanly in the gap
+   between "5" and "M", no more overlap. SIGNCOM position/scale also corrected from
+   the same pixel measurements (target width 2.24 units, not the old guessed 2.75).
+4. **Contact form churned twice this round** — session A added Size + Quantity +
+   Artwork + Sample picture + Installation location fields (client's original numbered
+   list). Session B removed Size + Quantity per follow-up ("remove the quantity and
+   size box"). **Current final state**: Name, Company, Phone, Type of signage,
+   Artwork (file upload), Sample picture (file upload), Installation location (file
+   upload), free-text message. Matching i18n keys (`f_size`/`f_qty`/hints) were fully
+   deleted from all 3 language dicts, not just unused — don't resurrect them without
+   re-adding the HTML fields too. Heading is "Get a **free** quotation" (free in
+   `.hl-free`, 5M red) in all 3 languages.
+5. **WhatsApp prefill message changed twice** — session A set a 5-point quotation
+   checklist ("Thank you for contacting..."), session B replaced it per explicit
+   client request with the short opener `"Hi, I am enquiring from 5msigncom.com.my"`.
+   Applied via `site.js` querying every `a[href*="wa.me"]` and appending `?text=`
+   (skips links that already have one) — don't hand-edit individual `wa.me` hrefs in
+   HTML, they're all driven from `WA_MSG` in one place.
+6. **Home service cards (4 grouped tiles) now open combined lightbox galleries** —
+   `data-cat` can be a comma-joined list (e.g. `"signboard,3d,cutout"`); `gallery.js`'s
+   `imagesFor()` aggregates + dedups across all listed keys. Same mechanism now powers
+   item 7 below. `.gl-count` span auto-fills from the real aggregated count.
+7. **Projects/gallery page: new "All projects" tile** (first card, dark bg, big red
+   count number, "View all →") with `data-cat` listing all 12 brand keys — opens every
+   project photo (63 total) in one lightbox via the same aggregation mechanism.
+8. **Mobile lightbox nav — bigger tap targets + no more double-tap-zoom.** Client
+   reported quick swiping through photos on mobile sometimes triggers the browser's
+   native pinch-zoom (mis-tapping the small 46px arrow buttons registers as a
+   double-tap). Fixed in the `≤700px` media query: prev/next buttons become full-
+   height (`top:0;bottom:0`) zones spanning ~30% width on each side of the photo, plus
+   `touch-action:manipulation` on `.lb-stage` and `.lb button` to disable the native
+   double-tap-zoom gesture. **CSS specificity gotcha hit and fixed**: the base rule
+   `.lb button{width:46px;height:46px;...}` has specificity (0,1,1) — a class + an
+   element selector — which beats a same-media-query override written as
+   `.lb-prev,.lb-next{...}` (specificity (0,1,0), class only), REGARDLESS of source
+   order/media-query placement. Had to write it as `.lb .lb-prev,.lb .lb-next{...}`
+   (0,2,0) to win. **Watch for this pattern anywhere else `.lb button` base rules get
+   overridden** — any future override needs ≥2 classes of specificity.
+9. **About page — REVERSED from what the first session shipped.** Client's original
+   "remove the block underneath the company photo" was misread as the `.partner-row`
+   welcome-partnerships paragraph; client's follow-up (with a circled screenshot)
+   clarified they meant the `.sheet-block` caption bar (Location/Type/Our own
+   facility) that sits directly flush under the factory photo. Current correct state:
+   caption bar removed, partnership paragraph restored. If this gets touched again,
+   the two elements are: `<figcaption class="sheet-block mono">` (now deleted) vs.
+   `<div class="partner-row"><p class="partner-note" data-i18n="ab_p5">` (now present).
+10. **Unrelated bug found + fixed**: `assets/img/hero-happyfeet.jpg` was tracked in
+    git (real 28,754-byte JPEG from the very first commit `3da12d9`) but absent from
+    the working directory on disk — a genuine 404 on the Services page's Signboard
+    card, predating both sessions this round, cause unknown (not caused by any edit
+    here; possibly a sync/cleanup issue outside git). Fixed with `git checkout HEAD --
+    site/assets/img/hero-happyfeet.jpg` (safe: file had zero working-tree changes to
+    lose, this only restores what git already had). If any other gallery image ever
+    404s, check `git ls-files` + `git cat-file -s HEAD:<path>` before assuming it was
+    never committed — it might just be missing from disk the same way.
+
+**Next step / open items:** Midhills logo still needs sourcing (retry the LBS fetch,
+or ask the client to email the file directly). D'Laman Rasa likely has no logo to
+find — confirm with the client whether the current photo crop is acceptable as final.
+No other pending asks from the client as of session end.
 
 ## Round 7 (cache ?v=20260713n) — gallery re-cut to direct customers ONLY
 User purged photos of retailer-collab/confidential jobs. Folder presence in

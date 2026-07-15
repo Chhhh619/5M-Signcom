@@ -244,7 +244,7 @@
       gl_h1: "Installed and photographed on site",
       gl_lede: "Through 18 years in business, 5M Signcom has been trusted by clients from independent shops to national brands, completing over 1,000 signage projects end to end. Below are a few projects we are proud to showcase.",
       gl_tag: "Project gallery",
-      gl_all: "All projects", gl_all_sub: "Every photo, one gallery", gl_all_cta: "View all →",
+      gl_all: "All projects", gl_all_cta: "See all our projects →",
       gl_empty: "No projects in this category yet. Ask us and we'll send recent examples.",
 
       /* ---------- CONTACT ---------- */
@@ -389,7 +389,7 @@
       gl_h1: "Siap dipasang, difoto di tapak",
       gl_lede: "Sepanjang 18 tahun beroperasi, 5M Signcom dipercayai oleh pelanggan daripada kedai kecil hingga jenama besar, dengan lebih 1,000 projek papan tanda disiapkan dari mula hingga akhir. Berikut beberapa projek yang kami banggakan.",
       gl_tag: "Galeri projek",
-      gl_all: "Semua projek", gl_all_sub: "Setiap foto, satu galeri", gl_all_cta: "Lihat semua →",
+      gl_all: "Semua projek", gl_all_cta: "Lihat semua projek kami →",
       gl_empty: "Belum ada projek dalam kategori ini. Tanya kami dan kami akan hantar contoh terkini.",
 
       ct_crumb: "Hubungi kami",
@@ -533,7 +533,7 @@
       gl_h1: "实地安装，实景拍摄",
       gl_lede: "创业18年来，5M Signcom 深受大小客户信赖，从头到尾完成超过1,000个招牌项目。以下是我们引以为傲的部分项目。",
       gl_tag: "工程案例",
-      gl_all: "全部案例", gl_all_sub: "所有照片，一个相册", gl_all_cta: "查看全部 →",
+      gl_all: "全部案例", gl_all_cta: "查看我们的全部案例 →",
       gl_empty: "此类别暂无案例。请联系我们，我们会发送近期实例。",
 
       ct_crumb: "联系我们",

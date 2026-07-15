@@ -14,7 +14,7 @@ window.GALLERY = {
   "assets/img/gallery/parkson/parkson-04.jpg",
   "assets/img/gallery/parkson/parkson-05.jpg",
   "assets/img/gallery/parkson/parkson-06.jpg",
-  "assets/img/gallery/parkson/parkson-07.jpeg"
+  "assets/img/gallery/parkson/parkson-07.png"
  ],
  "aicb": [
   "assets/img/gallery/aicb/AICB1.jpeg",
@@ -84,11 +84,6 @@ window.GALLERY = {
   "assets/img/gallery/vivace/vivace-03.jpg",
   "assets/img/gallery/vivace/vivace-04.jpg"
  ],
- "dlamanrasa": [
-  "assets/img/gallery/D Laman Rasa/D LAMAN RASA4.jpeg",
-  "assets/img/gallery/D Laman Rasa/D LAMAN RASA6.jpeg",
-  "assets/img/gallery/D Laman Rasa/D LAMAN RASA7.jpeg"
- ],
  "grandflexible": [
   "assets/img/gallery/GRAND FLEXIBLE/GRAND FLEXIBLE BAGS2.jpeg",
   "assets/img/gallery/GRAND FLEXIBLE/GRAND FLEXIBLE BAGS3.jpeg",
@@ -111,7 +106,10 @@ window.GALLERY = {
   "assets/img/gallery/nikoneko/nikoneko-01.jpg",
   "assets/img/gallery/3dled-04.jpg",
   "assets/img/gallery/3dled-08.jpg",
-  "assets/img/gallery/3dled-11.jpg"
+  "assets/img/gallery/3dled-11.jpg",
+  "assets/img/gallery/D Laman Rasa/D LAMAN RASA4.jpeg",
+  "assets/img/gallery/D Laman Rasa/D LAMAN RASA6.jpeg",
+  "assets/img/gallery/D Laman Rasa/D LAMAN RASA7.jpeg"
  ],
  "3d": [
   "assets/img/proj-3d-leadresidences.jpg",

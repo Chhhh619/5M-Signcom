@@ -1,8 +1,12 @@
 /* ============================================================
    5M Signcom — live 3D logo viewer (Three.js r128)
-   Extrudes the actual 5M logo mark (outline traced from
-   logo.png) as a box-up sign: coloured returns + a front
-   face that can glow like an LED sign.
+   Builds the full 5M Signcom mark as a box-up sign:
+     • the "5M" letters (outline traced from logo.png), red
+       returns with a front face that can glow like an LED sign
+     • the word "SIGNCOM" as extruded 3D text (helvetiker font)
+     • the five coloured "leaf" ribbons under the mark
+   The whole composition is auto-centred and scaled to the frame,
+   so relative layout is all that matters here.
    Runs only if a #viewer3d canvas is present.
    ============================================================ */
 (function () {
@@ -29,11 +33,11 @@
   renderer.setClearColor(0x000000, 0);
 
   var scene = new THREE.Scene();
-  var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-  camera.position.set(0, 0.2, 6.6);
+  var camera = new THREE.PerspectiveCamera(42, 1.5, 0.1, 100);
+  camera.position.set(0, 0.1, 7.2);
 
   // lighting — intensities swap between "day" (LED off) and "night" (LED on)
-  var ambient = new THREE.AmbientLight(0xffffff, 0.55);
+  var ambient = new THREE.AmbientLight(0xffffff, 0.6);
   scene.add(ambient);
   var key = new THREE.DirectionalLight(0xffffff, 0.85);
   key.position.set(3, 5, 4);
@@ -42,17 +46,20 @@
   fill.position.set(-4, -2, 3);
   scene.add(fill);
   // warm spill light that only shines when the LED face is lit
-  var glow = new THREE.PointLight(0xff8a40, 0.0, 14);
+  var glow = new THREE.PointLight(0xff8a40, 0.0, 16);
   glow.position.set(0, 0.3, 2.6);
   scene.add(glow);
 
-  // materials — shared so toggles apply everywhere
-  // returns are logo red; the front face is a warmer orange-red shade so it
-  // never blends into the paper background the way a white face did
+  // ---- materials (shared, so toggles apply everywhere) ----
+  // "5M" returns are logo red; the front face is a warmer orange-red that
+  // never blends into the paper background the way a white face would
   var RED = 0xD42B1E;
   var FACE_DAY = 0xF06A1D;
   var sideMat = new THREE.MeshStandardMaterial({ color: RED, roughness: 0.55, metalness: 0.1 });
   var faceMat = new THREE.MeshStandardMaterial({ color: FACE_DAY, roughness: 0.35, metalness: 0.0, emissive: 0xff7a30, emissiveIntensity: 0.0 });
+  // "SIGNCOM" — dark charcoal, gently self-lit at night so it stays readable
+  var signMat = new THREE.MeshStandardMaterial({ color: 0x2A2D34, roughness: 0.5, metalness: 0.12, emissive: 0xff9a52, emissiveIntensity: 0.0 });
+  var leafMats = [];
 
   // the 5M logo mark, traced from assets/img/logo.png (x right, y up,
   // centred, 4.6 units wide) — one polygon per solid piece of the mark
@@ -65,22 +72,107 @@
     [[0.812, -0.765], [0.812, 0.199], [0.424, 0.189], [0.424, 0.147], [0.382, 0.147], [0.351, 0.178], [0.351, -0.765]]
   ];
 
+  // the colourful leaf ribbons, all fanning out from one pivot point just
+  // under the gap between the "5" and the "M" (measured off the pixels of
+  // assets/img/logo.png so the swirl sits clear of both letterforms —
+  // it used to overlap the "5" and z-fight with it): [colour, rotation.z
+  // (radians, 0 = straight up), length, width]
+  var LEAVES = [
+    [0x2E9BD6, 1.35, 1.20, 0.11], // blue
+    [0x5DBB46, 0.84, 0.87, 0.10], // green
+    [0xF7941E, 1.74, 1.12, 0.12], // orange
+    [0xFAD017, 2.13, 0.66, 0.11], // yellow
+    [0xD42B1E, 2.97, 0.69, 0.11]  // red
+  ];
+  var LEAF_PIVOT = { x: -0.15, y: -1.35 };
+
   var DEPTH = 0.55;
-  var group = new THREE.Group();
-
-  LOGO.forEach(function (poly) {
-    var shape = new THREE.Shape();
-    shape.moveTo(poly[0][0], poly[0][1]);
-    for (var i = 1; i < poly.length; i++) shape.lineTo(poly[i][0], poly[i][1]);
-    shape.closePath();
-    var geo = new THREE.ExtrudeGeometry(shape, { depth: DEPTH, bevelEnabled: false });
-    geo.translate(0, 0, -DEPTH / 2);
-    // ExtrudeGeometry material order: [caps (front/back), extruded sides]
-    group.add(new THREE.Mesh(geo, [faceMat, sideMat]));
-  });
-
-  group.rotation.set(-0.1, -0.32, 0);
+  var content = new THREE.Group();   // holds every mesh at authored positions
+  var group = new THREE.Group();     // the spinning group (drag / auto-rotate)
   scene.add(group);
+
+  function addMark() {
+    LOGO.forEach(function (poly) {
+      var shape = new THREE.Shape();
+      shape.moveTo(poly[0][0], poly[0][1]);
+      for (var i = 1; i < poly.length; i++) shape.lineTo(poly[i][0], poly[i][1]);
+      shape.closePath();
+      var geo = new THREE.ExtrudeGeometry(shape, { depth: DEPTH, bevelEnabled: false });
+      geo.translate(0, 0, -DEPTH / 2);
+      // ExtrudeGeometry material order: [caps (front/back), extruded sides]
+      content.add(new THREE.Mesh(geo, [faceMat, sideMat]));
+    });
+  }
+
+  function addLeaves() {
+    LEAVES.forEach(function (L) {
+      var color = L[0], angle = L[1], len = L[2], wid = L[3];
+      var s = new THREE.Shape();
+      s.moveTo(0, 0);
+      s.quadraticCurveTo(wid, len * 0.55, 0, len);
+      s.quadraticCurveTo(-wid, len * 0.55, 0, 0);
+      var g = new THREE.ExtrudeGeometry(s, { depth: 0.16, bevelEnabled: false });
+      g.translate(0, 0, -0.08);
+      var m = new THREE.MeshStandardMaterial({ color: color, roughness: 0.4, metalness: 0.05, emissive: color, emissiveIntensity: 0.0 });
+      leafMats.push(m);
+      var mesh = new THREE.Mesh(g, m);
+      mesh.position.set(LEAF_PIVOT.x, LEAF_PIVOT.y, 0);
+      mesh.rotation.z = angle;
+      content.add(mesh);
+    });
+  }
+
+  function addSigncom(font) {
+    if (!font || typeof THREE.TextGeometry === "undefined") return;
+    var tgeo = new THREE.TextGeometry("SIGNCOM", {
+      font: font, size: 0.62, height: 0.18, curveSegments: 6, bevelEnabled: false
+    });
+    tgeo.computeBoundingBox();
+    var bb = tgeo.boundingBox;
+    var tw = bb.max.x - bb.min.x;
+    // shift so the text's bottom-left sits at the local origin, centred in depth
+    tgeo.translate(-bb.min.x, -bb.min.y, -0.09);
+    var mesh = new THREE.Mesh(tgeo, signMat);
+    var target = 2.24;                 // measured width in assets/img/logo.png
+    var sc = target / tw;
+    mesh.scale.setScalar(sc);
+    mesh.position.set(0.07, -1.25, 0.0);  // measured start x / baseline y
+    content.add(mesh);
+  }
+
+  function fitAndShow() {
+    content.updateMatrixWorld(true);
+    var box = new THREE.Box3().setFromObject(content);
+    var center = box.getCenter(new THREE.Vector3());
+    var size = box.getSize(new THREE.Vector3());
+    var s = Math.min(6.6 / size.x, 3.5 / size.y);
+    content.scale.setScalar(s);
+    content.position.set(-center.x * s, -center.y * s, -center.z * s);
+    group.add(content);
+    applyLed();
+  }
+
+  function build(font) {
+    addMark();
+    addLeaves();
+    addSigncom(font);
+    fitAndShow();
+  }
+
+  // SIGNCOM needs the font, which loads asynchronously; the mark + leaves
+  // could render first, but building together keeps one clean centring pass.
+  var built = false;
+  function buildOnce(font) { if (built) return; built = true; build(font); }
+  try {
+    new THREE.FontLoader().load(
+      "assets/fonts/helvetiker_bold.typeface.json",
+      function (font) { buildOnce(font); },
+      undefined,
+      function () { buildOnce(null); }   // font failed: mark + leaves only
+    );
+  } catch (e) { buildOnce(null); }
+
+  group.rotation.set(-0.08, -0.30, 0);
 
   /* ---- controls ---- */
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -90,19 +182,23 @@
 
   function applyLed() {
     if (ledOn) {
-      // night: the LED face itself glows — strong emissive + warm spill light
+      // night: the LED face glows — strong emissive + warm spill light
       faceMat.emissiveIntensity = 1.15;
       faceMat.color.set(0xff8a3c);
-      ambient.intensity = 0.12;
-      key.intensity = 0.15;
-      fill.intensity = 0.05;
-      glow.intensity = 0.9;
+      signMat.emissiveIntensity = 0.28;
+      leafMats.forEach(function (m) { m.emissiveIntensity = 0.55; });
+      ambient.intensity = 0.14;
+      key.intensity = 0.16;
+      fill.intensity = 0.06;
+      glow.intensity = 0.95;
       if (wrap) wrap.classList.add("night");
     } else {
-      // day: full light, face reads as unlit orange-red acrylic
+      // day: full light, faces read as unlit acrylic / painted metal
       faceMat.emissiveIntensity = 0.0;
       faceMat.color.set(FACE_DAY);
-      ambient.intensity = 0.55;
+      signMat.emissiveIntensity = 0.0;
+      leafMats.forEach(function (m) { m.emissiveIntensity = 0.0; });
+      ambient.intensity = 0.6;
       key.intensity = 0.85;
       fill.intensity = 0.35;
       glow.intensity = 0.0;
@@ -127,7 +223,6 @@
     });
     btnLight.setAttribute("aria-pressed", "false");
   }
-  applyLed();
 
   /* ---- pointer drag to orbit ---- */
   var dragging = false, px = 0, py = 0;
@@ -153,13 +248,13 @@
   canvas.addEventListener("touchmove", move, { passive: false });
   canvas.addEventListener("touchend", up);
   canvas.addEventListener("wheel", function (e) {
-    camera.position.z = Math.max(4.2, Math.min(9.5, camera.position.z + (e.deltaY > 0 ? 0.5 : -0.5)));
+    camera.position.z = Math.max(4.6, Math.min(10.5, camera.position.z + (e.deltaY > 0 ? 0.5 : -0.5)));
     e.preventDefault();
   }, { passive: false });
 
   /* ---- resize ---- */
   function resize() {
-    var w = canvas.clientWidth || 600, h = canvas.clientHeight || 420;
+    var w = canvas.clientWidth || 600, h = canvas.clientHeight || 400;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();

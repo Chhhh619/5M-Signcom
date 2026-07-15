@@ -49,15 +49,8 @@
   var yr = document.getElementById("year");
   if (yr) yr.textContent = new Date().getFullYear();
 
-  /* ---- prefill every WhatsApp link with the quotation checklist ---- */
-  var WA_MSG =
-    "Thank you for contacting 5M Signcom Sdn Bhd! If you need a quotation, kindly provide below:\n" +
-    "1) Artwork\n" +
-    "2) Size\n" +
-    "3) Qty\n" +
-    "4) Type of signage (sample picture)\n" +
-    "5) Picture where the sign need to install (if installation required)\n" +
-    "Tqvm.";
+  /* ---- prefill every WhatsApp link with a quick opener ---- */
+  var WA_MSG = "Hi, I am enquiring from 5msigncom.com.my";
   document.querySelectorAll('a[href*="wa.me"]').forEach(function (a) {
     var href = a.getAttribute("href");
     if (!href || /[?&]text=/.test(href)) return;
@@ -141,7 +134,7 @@
       s_signboard: "Signboard", s_3d: "3D / box-up lettering", s_cutout: "Cut-out flat lettering",
       s_led: "Neon / LED signs", s_lightbox: "Lightbox", s_pylon: "Pylon signs",
       s_outdoor: "Outdoor projects", s_acrylic: "Acrylic works",
-      s_etching: "Chemical etching", s_waterjet: "Water jet cutting",
+      s_etching: "Chemical etching", s_laser: "Laser cutting",
 
       /* project types (shared) */
       type_billboard: "Billboard signboard", type_3dled: "3D box-up · LED", type_3d: "3D box-up lettering",
@@ -202,6 +195,11 @@
       ab_stat2_n: "18", ab_stat2_l: "Years in business",
       ab_stat3_n: "ALL", ab_stat3_l: "Signage services under one roof",
       ab_stat4_n: "1,000+", ab_stat4_l: "Projects completed end to end",
+      ab_cidb_h: "Registered with CIDB",
+      ab_cidb_p: "5M Signcom is registered with the Construction Industry Development Board (CIDB Malaysia) as a Grade G3 contractor under categories B04 and CE21. That covers the signage work that counts as construction: pylon foundations, structural steel and jobs inside an active development site, where the main contractor needs a registered firm on the paperwork.",
+      ab_cidb_f1: "Registration", ab_cidb_f2: "Grade", ab_cidb_f2v: "G3 · B04 · CE21",
+      ab_cidb_f3: "Valid until", ab_cidb_f3v: "9 April 2028",
+      ab_cidb_cta: "View the certificate →", ab_cidb_lbl: "CIDB certificate",
       ab_cap_tag: "Where the work goes",
       ab_cap_h: "Our busiest services",
       ab_cap_p: "Across a typical year, most of our workload sits in three areas, though we build more than just these.",
@@ -223,7 +221,7 @@
       sv_d_cutout: "Flat letters cut from acrylic, aluminium or PVC and mounted directly to your wall or panel, for a crisp, economical look in interiors and shopfronts.",
       sv_d_acrylic: "Precision-cut and fabricated acrylic for panels, plaques, directories and built-up letters, with polished or flame-finished edges.",
       sv_d_etching: "The image is cut into the surface of the material by a chemical process, giving a permanent, hard-wearing result, ideal for brass and stainless plaques.",
-      sv_d_waterjet: "Cold water-jet cutting for clean, precise profiles in thick metal, stone and composite, with no heat distortion and tight tolerances.",
+      sv_d_laser: "Laser cutting for clean, precise profiles in sheet metal, holding tight tolerances.",
       sv_d_pylon: "Free-standing pylon and monument signs engineered for wind load and Malaysian weather: the landmark that marks your site from the road.",
       sv_d_outdoor: "Site-wide and large-format outdoor works: billboards, gantries, hoardings and multi-sign rollouts installed by our own crew.",
       sv_mat_signboard: ["Aluminium composite", "Steel frame", "Vinyl", "LED"],
@@ -233,7 +231,7 @@
       sv_mat_cutout: ["Acrylic", "Aluminium", "PVC foam"],
       sv_mat_acrylic: ["Cast acrylic", "Polished edge", "Custom colour"],
       sv_mat_etching: ["Brass", "Stainless steel", "Aluminium"],
-      sv_mat_waterjet: ["Steel", "Stainless", "Stone", "Composite"],
+      sv_mat_laser: ["Stainless steel", "Mild steel", "Aluminium", "Brass"],
       sv_mat_pylon: ["Steel structure", "ACP cladding", "LED / lightbox"],
       sv_mat_outdoor: ["Steel", "ACP", "Digital print", "Structure"],
 
@@ -251,7 +249,7 @@
       gl_h1: "Installed and photographed on site",
       gl_lede: "Through 18 years in business, 5M Signcom has been trusted by clients from independent shops to national brands, completing over 1,000 signage projects end to end. Below are a few projects we are proud to showcase.",
       gl_tag: "Project gallery",
-      gl_all: "All projects",
+      gl_all: "All projects", gl_all_cta: "See all our projects →",
       gl_empty: "No projects in this category yet. Ask us and we'll send recent examples.",
 
       /* ---------- CONTACT ---------- */
@@ -260,7 +258,7 @@
       ct_lede: "Send a photo of your frontage on WhatsApp for the fastest reply, or use the form and we'll call you back.",
       tag_contact: "Contact",
       contact_h2a: "Get a ", contact_h2free: "free", contact_h2b: " quotation",
-      contact_intro: "Tell us the size and quantity and attach your artwork. A photo of where the sign will go helps us quote faster.",
+      contact_intro: "Attach your artwork and a sample picture. A photo of where the sign will go helps us quote faster.",
       info_head: "5M Signcom Sdn Bhd, 200801011102 (812390-K)",
       lbl_workshop: "Workshop & office", lbl_directions: "Open in Google Maps →",
       lbl_tel: "Telephone", lbl_fax: "Fax", lbl_email: "Email",
@@ -268,8 +266,6 @@
       f_name: "Name", f_company: "Company", f_phone: "Phone / WhatsApp", f_service: "Type of signage",
       o_notsure: "Not sure yet, advise me",
       f_artwork: "Artwork", f_artwork_hint: "Upload your logo or design — JPG, PNG or PDF",
-      f_size: "Size", f_size_hint: "e.g. 10 ft × 3 ft, or rough dimensions",
-      f_qty: "Quantity",
       f_sample: "Sample picture", f_sample_hint: "A photo of the signage style you have in mind",
       f_install: "Installation location", f_install_hint: "Photo of where the sign will go, if installation is needed",
       f_msg: "Anything else? Location, deadline, details",
@@ -294,7 +290,7 @@
       s_signboard: "Papan tanda", s_3d: "Huruf timbul 3D / box-up", s_cutout: "Huruf potong rata",
       s_led: "Papan tanda neon / LED", s_lightbox: "Kotak lampu", s_pylon: "Pilon",
       s_outdoor: "Projek luaran", s_acrylic: "Kerja akrilik",
-      s_etching: "Punaran kimia", s_waterjet: "Pemotongan water jet",
+      s_etching: "Punaran kimia", s_laser: "Pemotongan laser",
 
       type_billboard: "Papan iklan besar", type_3dled: "3D box-up · LED", type_3d: "Huruf timbul 3D",
       type_acrylic: "Papan tanda akrilik", type_lightbox: "Kotak lampu", type_outdoor: "Projek luaran",
@@ -352,6 +348,11 @@
       ab_stat2_n: "18", ab_stat2_l: "Tahun beroperasi",
       ab_stat3_n: "SEMUA", ab_stat3_l: "Kemahiran papan tanda satu bumbung",
       ab_stat4_n: "1,000+", ab_stat4_l: "Projek siap dari mula hingga akhir",
+      ab_cidb_h: "Berdaftar dengan CIDB",
+      ab_cidb_p: "5M Signcom berdaftar dengan Lembaga Pembangunan Industri Pembinaan Malaysia (CIDB) sebagai kontraktor Gred G3 di bawah kategori B04 dan CE21. Ini merangkumi kerja papan tanda yang dikira sebagai pembinaan: tapak asas pilon, kerja keluli struktur dan kerja di dalam tapak pembangunan yang aktif, di mana kontraktor utama memerlukan firma berdaftar dalam dokumen mereka.",
+      ab_cidb_f1: "Pendaftaran", ab_cidb_f2: "Gred", ab_cidb_f2v: "G3 · B04 · CE21",
+      ab_cidb_f3: "Sah sehingga", ab_cidb_f3v: "9 April 2028",
+      ab_cidb_cta: "Lihat perakuan →", ab_cidb_lbl: "Perakuan CIDB",
       ab_cap_tag: "Tumpuan kerja",
       ab_cap_h: "Kemahiran paling sibuk",
       ab_cap_p: "Dalam setahun biasa, kebanyakan kerja kami tertumpu pada tiga bidang, tetapi kerja kami tidak terhad kepada ini sahaja.",
@@ -372,7 +373,7 @@
       sv_d_cutout: "Huruf rata dipotong daripada akrilik, aluminium atau PVC dan dipasang terus pada dinding atau panel anda, untuk kemasan kemas dan jimat di dalaman dan hadapan kedai.",
       sv_d_acrylic: "Akrilik dipotong dan dibuat dengan persis untuk panel, plak, direktori dan huruf timbul, dengan tepi digilap atau dikemas api.",
       sv_d_etching: "Imej dipotong ke permukaan bahan melalui proses kimia, memberikan hasil kekal dan tahan lasak, sesuai untuk plak tembaga dan keluli tahan karat.",
-      sv_d_waterjet: "Pemotongan water jet sejuk untuk profil bersih dan tepat pada logam tebal, batu dan komposit, tanpa herotan haba dan toleransi ketat.",
+      sv_d_laser: "Pemotongan laser untuk profil bersih dan tepat pada logam kepingan, dengan toleransi ketat.",
       sv_d_pylon: "Papan tanda pilon dan monumen berdiri sendiri, direka untuk beban angin dan cuaca Malaysia: mercu tanda yang menandakan tapak anda dari jalan.",
       sv_d_outdoor: "Kerja luaran format besar seluruh tapak: papan iklan, gantri, pagar iklan dan pemasangan berbilang papan tanda oleh krew kami sendiri.",
       sv_mat_signboard: ["Komposit aluminium", "Rangka keluli", "Vinil", "LED"],
@@ -382,7 +383,7 @@
       sv_mat_cutout: ["Akrilik", "Aluminium", "PVC buih"],
       sv_mat_acrylic: ["Akrilik tuang", "Tepi digilap", "Warna tersuai"],
       sv_mat_etching: ["Tembaga", "Keluli tahan karat", "Aluminium"],
-      sv_mat_waterjet: ["Keluli", "Tahan karat", "Batu", "Komposit"],
+      sv_mat_laser: ["Keluli tahan karat", "Keluli lembut", "Aluminium", "Tembaga"],
       sv_mat_pylon: ["Struktur keluli", "Lapisan ACP", "LED / kotak lampu"],
       sv_mat_outdoor: ["Keluli", "ACP", "Cetakan digital", "Struktur"],
 
@@ -398,7 +399,7 @@
       gl_h1: "Siap dipasang, difoto di tapak",
       gl_lede: "Sepanjang 18 tahun beroperasi, 5M Signcom dipercayai oleh pelanggan daripada kedai kecil hingga jenama besar, dengan lebih 1,000 projek papan tanda disiapkan dari mula hingga akhir. Berikut beberapa projek yang kami banggakan.",
       gl_tag: "Galeri projek",
-      gl_all: "Semua projek",
+      gl_all: "Semua projek", gl_all_cta: "Lihat semua projek kami →",
       gl_empty: "Belum ada projek dalam kategori ini. Tanya kami dan kami akan hantar contoh terkini.",
 
       ct_crumb: "Hubungi kami",
@@ -406,7 +407,7 @@
       ct_lede: "Hantar foto hadapan kedai anda melalui WhatsApp untuk jawapan terpantas, atau isi borang dan kami akan hubungi anda semula.",
       tag_contact: "Hubungi",
       contact_h2a: "Dapatkan sebut harga ", contact_h2free: "percuma", contact_h2b: "",
-      contact_intro: "Beritahu kami saiz dan kuantiti serta lampirkan karya seni anda. Foto lokasi pemasangan membantu kami sebut harga dengan lebih pantas.",
+      contact_intro: "Lampirkan karya seni dan gambar contoh anda. Foto lokasi pemasangan membantu kami sebut harga dengan lebih pantas.",
       info_head: "5M Signcom Sdn Bhd, 200801011102 (812390-K)",
       lbl_workshop: "Bengkel & pejabat", lbl_directions: "Buka di Google Maps →",
       lbl_tel: "Telefon", lbl_fax: "Faks", lbl_email: "E-mel",
@@ -414,8 +415,6 @@
       f_name: "Nama", f_company: "Syarikat", f_phone: "Telefon / WhatsApp", f_service: "Jenis papan tanda",
       o_notsure: "Belum pasti, nasihatkan saya",
       f_artwork: "Karya seni", f_artwork_hint: "Muat naik logo atau reka bentuk anda — JPG, PNG atau PDF",
-      f_size: "Saiz", f_size_hint: "cth. 10 kaki × 3 kaki, atau ukuran anggaran",
-      f_qty: "Kuantiti",
       f_sample: "Gambar contoh", f_sample_hint: "Foto gaya papan tanda yang anda inginkan",
       f_install: "Lokasi pemasangan", f_install_hint: "Foto tempat papan tanda akan dipasang, jika perlukan pemasangan",
       f_msg: "Apa-apa lagi? Lokasi, tarikh akhir, butiran",
@@ -440,7 +439,7 @@
       s_signboard: "招牌", s_3d: "3D立体字 / 箱式字", s_cutout: "平面切割字",
       s_led: "霓虹 / LED招牌", s_lightbox: "灯箱", s_pylon: "立柱广告塔",
       s_outdoor: "户外工程", s_acrylic: "压克力制品",
-      s_etching: "化学蚀刻", s_waterjet: "水刀切割",
+      s_etching: "化学蚀刻", s_laser: "激光切割",
 
       type_billboard: "大型广告招牌", type_3dled: "3D箱式字 · LED", type_3d: "3D箱式立体字",
       type_acrylic: "压克力招牌", type_lightbox: "灯箱招牌", type_outdoor: "户外工程",
@@ -498,6 +497,11 @@
       ab_stat2_n: "18", ab_stat2_l: "经营年数",
       ab_stat3_n: "全部", ab_stat3_l: "招牌工艺一站式完成",
       ab_stat4_n: "1,000+", ab_stat4_l: "项目从头到尾完成",
+      ab_cidb_h: "已在 CIDB 注册",
+      ab_cidb_p: "5M Signcom 已在马来西亚建筑工业发展局（CIDB）注册，为 G3 级承包商，类别 B04 与 CE21。这涵盖了属于建筑工程范畴的招牌工作：立柱地基、结构钢材，以及在施工中的发展区内作业——总承包商需要在文件上列明注册公司的场合。",
+      ab_cidb_f1: "注册编号", ab_cidb_f2: "等级", ab_cidb_f2v: "G3 · B04 · CE21",
+      ab_cidb_f3: "有效期至", ab_cidb_f3v: "2028年4月9日",
+      ab_cidb_cta: "查看证书 →", ab_cidb_lbl: "CIDB 证书",
       ab_cap_tag: "工作重心",
       ab_cap_h: "我们最繁忙的工艺",
       ab_cap_p: "在寻常的一年里，我们大部分工作集中在三个领域，但我们的业务远不止于此。",
@@ -518,7 +522,7 @@
       sv_d_cutout: "以压克力、铝或 PVC 切割的平面字，直接安装于墙面或面板，打造室内与店面皆宜、简洁又经济的效果。",
       sv_d_acrylic: "精密切割与加工的压克力，用于面板、铭牌、指示牌与立体字，边缘经抛光或火焰处理。",
       sv_d_etching: "图案通过化学工艺蚀入材料表面，效果永久耐磨，最适合黄铜与不锈钢铭牌。",
-      sv_d_waterjet: "冷水刀切割，可在厚金属、石材与复合板上切出干净精确的轮廓，无热变形、公差严密。",
+      sv_d_laser: "激光切割，可在金属板上切出干净精确的轮廓，公差严密。",
       sv_d_pylon: "独立式立柱与地标招牌，按风载与马来西亚气候设计：从马路上标示您所在位置的地标。",
       sv_d_outdoor: "整体场地与大型户外工程：广告牌、龙门架、围板及多招牌统一安装，由我们自己的团队完成。",
       sv_mat_signboard: ["铝塑板", "钢架", "贴膜", "LED"],
@@ -528,7 +532,7 @@
       sv_mat_cutout: ["压克力", "铝", "PVC发泡板"],
       sv_mat_acrylic: ["浇铸压克力", "抛光边", "定制颜色"],
       sv_mat_etching: ["黄铜", "不锈钢", "铝"],
-      sv_mat_waterjet: ["钢", "不锈钢", "石材", "复合板"],
+      sv_mat_laser: ["不锈钢", "碳钢", "铝", "黄铜"],
       sv_mat_pylon: ["钢结构", "铝塑板包覆", "LED / 灯箱"],
       sv_mat_outdoor: ["钢", "铝塑板", "数码印刷", "结构"],
 
@@ -544,7 +548,7 @@
       gl_h1: "实地安装，实景拍摄",
       gl_lede: "创业18年来，5M Signcom 深受大小客户信赖，从头到尾完成超过1,000个招牌项目。以下是我们引以为傲的部分项目。",
       gl_tag: "工程案例",
-      gl_all: "全部案例",
+      gl_all: "全部案例", gl_all_cta: "查看我们的全部案例 →",
       gl_empty: "此类别暂无案例。请联系我们，我们会发送近期实例。",
 
       ct_crumb: "联系我们",
@@ -552,7 +556,7 @@
       ct_lede: "WhatsApp 发送店面照片，回复最快；或填写表格，我们会回电给您。",
       tag_contact: "联系我们",
       contact_h2a: "获取", contact_h2free: "免费", contact_h2b: "报价",
-      contact_intro: "请告诉我们尺寸与数量，并附上您的设计稿。安装位置的照片能帮我们更快报价。",
+      contact_intro: "请附上您的设计稿与样图。安装位置的照片能帮我们更快报价。",
       info_head: "5M Signcom Sdn Bhd, 200801011102 (812390-K)",
       lbl_workshop: "厂房与办公室", lbl_directions: "在 Google 地图中打开 →",
       lbl_tel: "电话", lbl_fax: "传真", lbl_email: "电邮",
@@ -560,8 +564,6 @@
       f_name: "姓名", f_company: "公司", f_phone: "电话 / WhatsApp", f_service: "招牌类型",
       o_notsure: "还不确定，请给我建议",
       f_artwork: "设计稿", f_artwork_hint: "上传您的标志或设计稿 — JPG、PNG 或 PDF",
-      f_size: "尺寸", f_size_hint: "例如 10 尺 × 3 尺，或大致尺寸",
-      f_qty: "数量",
       f_sample: "样图", f_sample_hint: "您想要的招牌样式照片",
       f_install: "安装位置", f_install_hint: "招牌安装位置的照片（如需安装）",
       f_msg: "还有其他吗？地点、期限、细节",

@@ -1,11 +1,16 @@
 /* ============================================================
    5M Signcom — process flow thread (home page)
-   Draws ONE continuous red leader line that weaves through the
-   .flow step cards: starts at a dot, dips into each card's top
-   edge, exits its bottom edge, sweeps across to the next card,
-   and ends at a dot. Mid-path arrowheads follow the tangent.
-   Geometry is measured from the real card layout and redrawn
-   on resize, so it works at every viewport width.
+   Threads ONE continuous red leader line through the .flow step
+   cards: a bookend dot, a tail into card 1, a bowed connector
+   between each pair of cards (arrowhead at the curve's midpoint),
+   a tail out of the last card, and a closing dot.
+   Geometry is measured from the real card boxes and redrawn on
+   resize, so it follows the grid at any width — including the
+   single-column stack on mobile.
+   Ported from the Claude Design "Process Flow" component; the
+   inline <script> and Google Fonts in that source can't be used
+   here (CSP: script-src 'self', font-src 'self'), so the logic
+   lives in this file and the type/colour come from site.css.
    Runs only if a #process .flow container is present.
    ============================================================ */
 (function () {
@@ -13,15 +18,18 @@
 
   var flow = document.querySelector("#process .flow");
   if (!flow) return;
-  var steps = Array.prototype.slice.call(flow.querySelectorAll(".flow-step"));
-  if (steps.length < 2) return;
+  var svg = flow.querySelector(".flow-thread");
+  var cards = Array.prototype.slice.call(flow.querySelectorAll(".flow-step"));
+  if (!svg || cards.length < 2) return;
 
   var NS = "http://www.w3.org/2000/svg";
-  var svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("class", "flow-thread");
-  svg.setAttribute("aria-hidden", "true");
-  svg.setAttribute("focusable", "false");
-  flow.insertBefore(svg, flow.firstChild);
+  var WEIGHT = 2.4;
+  var STUB = 26;          // tail length between a card edge and its bookend dot
+  var accent = (getComputedStyle(document.documentElement)
+    .getPropertyValue("--red") || "").trim() || "#D42B1E";
+
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var revealed = false;
 
   function el(name, attrs) {
     var e = document.createElementNS(NS, name);
@@ -29,97 +37,195 @@
     return e;
   }
 
-  function cubicPoint(p0, c1, c2, p1, t) {
-    var u = 1 - t;
-    return {
-      x: u * u * u * p0.x + 3 * u * u * t * c1.x + 3 * u * t * t * c2.x + t * t * t * p1.x,
-      y: u * u * u * p0.y + 3 * u * u * t * c1.y + 3 * u * t * t * c2.y + t * t * t * p1.y
-    };
+  function curvePath(s, c1, c2, e) {
+    return "M " + s.x.toFixed(1) + " " + s.y.toFixed(1) +
+      " C " + c1.x.toFixed(1) + " " + c1.y.toFixed(1) +
+      ", " + c2.x.toFixed(1) + " " + c2.y.toFixed(1) +
+      ", " + e.x.toFixed(1) + " " + e.y.toFixed(1);
   }
 
-  function cubicTangent(p0, c1, c2, p1, t) {
-    var u = 1 - t;
-    var x = 3 * u * u * (c1.x - p0.x) + 6 * u * t * (c2.x - c1.x) + 3 * t * t * (p1.x - c2.x);
-    var y = 3 * u * u * (c1.y - p0.y) + 6 * u * t * (c2.y - c1.y) + 3 * t * t * (p1.y - c2.y);
-    var len = Math.sqrt(x * x + y * y) || 1;
-    return { x: x / len, y: y / len };
+  function arrowHead(tip, ang, size) {
+    var sp = 0.44;
+    var a1 = ang + Math.PI - sp, a2 = ang + Math.PI + sp;
+    var p1 = { x: tip.x + size * Math.cos(a1), y: tip.y + size * Math.sin(a1) };
+    var p2 = { x: tip.x + size * Math.cos(a2), y: tip.y + size * Math.sin(a2) };
+    return "M " + tip.x.toFixed(1) + " " + tip.y.toFixed(1) +
+      " L " + p1.x.toFixed(1) + " " + p1.y.toFixed(1) +
+      " L " + p2.x.toFixed(1) + " " + p2.y.toFixed(1) + " Z";
   }
 
-  function draw() {
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-    var fr = flow.getBoundingClientRect();
-    svg.setAttribute("viewBox", "0 0 " + fr.width + " " + fr.height);
-    svg.style.width = fr.width + "px";
-    svg.style.height = fr.height + "px";
-
-    var narrow = fr.width < 640;
-    var swing = narrow ? 34 : 70;         // how far the curve overshoots sideways
-    var dip = 12;                          // how far the line tucks under card edges
-
-    // card anchor points, relative to the flow container
-    var rects = steps.map(function (s) {
-      var r = s.getBoundingClientRect();
-      return { left: r.left - fr.left, right: r.right - fr.left, top: r.top - fr.top, bottom: r.bottom - fr.top, w: r.width };
+  /* Work out every drawable piece of the thread, in draw order:
+     dot -> tail -> connector(+arrow) xN -> tail -> dot */
+  function plan() {
+    var g = flow.getBoundingClientRect();
+    var r = cards.map(function (c) {
+      var b = c.getBoundingClientRect();
+      return {
+        x: b.left - g.left, y: b.top - g.top, w: b.width, h: b.height,
+        right: b.right - g.left, bottom: b.bottom - g.top
+      };
     });
-    function entry(i) { var r = rects[i]; return { x: r.left + r.w * (narrow ? 0.72 : 0.8), y: r.top + dip }; }
-    function exit(i) { var r = rects[i]; return { x: r.left + r.w * (narrow ? 0.24 : 0.2), y: r.bottom - dip }; }
+    var N = r.length;
+    var singleCol = Math.abs(r[0].x - r[1].x) < 8;   // cards stacked
+    var pieces = [];
 
-    var d = "";
-    var heads = [];
+    var first = r[0], last = r[N - 1];
+    var firstIn = singleCol
+      ? { x: first.x + first.w * 0.5, y: first.y }
+      : { x: first.x + first.w * 0.30, y: first.y };
+    var lastOut = singleCol
+      ? { x: last.x + last.w * 0.5, y: last.bottom }
+      : { x: last.x + last.w * 0.62, y: last.bottom };
+    var startDot = { x: firstIn.x, y: firstIn.y - STUB };
+    var endDot = { x: lastOut.x, y: lastOut.y + STUB };
 
-    // start dot -> into card 1
-    var e0 = entry(0);
-    var start = { x: e0.x + (narrow ? 14 : 30), y: Math.max(e0.y - (narrow ? 42 : 64), 8) };
-    d += "M" + start.x + " " + start.y +
-         " C" + start.x + " " + (start.y + 24) + " " + e0.x + " " + (e0.y - 28) + " " + e0.x + " " + e0.y;
+    pieces.push({ type: "dot", x: startDot.x, y: startDot.y });
+    pieces.push({
+      type: "line", arrow: false,
+      d: "M " + startDot.x.toFixed(1) + " " + startDot.y.toFixed(1) +
+         " L " + firstIn.x.toFixed(1) + " " + firstIn.y.toFixed(1)
+    });
 
-    // card i -> card i+1
-    for (var i = 0; i < steps.length - 1; i++) {
-      var a = exit(i), b = entry(i + 1);
-      var dy = b.y - a.y;
-      var dir = b.x >= a.x ? 1 : -1;
-      var c1 = { x: a.x - dir * swing * 0.4, y: a.y + dy * 0.55 };
-      var c2 = { x: b.x + dir * swing, y: b.y - dy * 0.45 };
-      d += " M" + a.x + " " + a.y +
-           " C" + c1.x + " " + c1.y + " " + c2.x + " " + c2.y + " " + b.x + " " + b.y;
-      heads.push({ p0: a, c1: c1, c2: c2, p1: b });
+    for (var i = 0; i < N - 1; i++) {
+      var A = r[i], B = r[i + 1], s, e, c1, c2, dy;
+      if (singleCol) {
+        // Stacked: a short arc that leaves one card and lands on the next,
+        // alternating side to side. It starts and ends off-centre so the
+        // curve travels diagonally and the arrowhead (placed at the END,
+        // see headAt below) points into the card it is leading to.
+        var dir = (i % 2 === 0) ? 1 : -1;
+        var off = Math.min(52, A.w * 0.14);
+        s = { x: A.x + A.w * 0.5 + off * dir, y: A.bottom };
+        e = { x: B.x + B.w * 0.5 - off * dir * 0.55, y: B.y };
+        dy = e.y - s.y;
+        var bow = dir * Math.min(26, Math.abs(dy) * 0.34);
+        c1 = { x: s.x + bow, y: s.y + dy * 0.55 };
+        c2 = { x: e.x + bow, y: e.y - dy * 0.32 };
+      } else {
+        if (B.x > A.x + 4) {                    // stepping right
+          s = { x: A.x + A.w * 0.62, y: A.bottom };
+          e = { x: B.x + B.w * 0.30, y: B.y };
+        } else {                                 // stepping back left
+          s = { x: A.x + A.w * 0.38, y: A.bottom };
+          e = { x: B.x + B.w * 0.70, y: B.y };
+        }
+        dy = e.y - s.y;
+        c1 = { x: s.x, y: s.y + dy * 0.5 };
+        c2 = { x: e.x, y: e.y - dy * 0.5 };
+      }
+      // Wide layout keeps the design's mid-curve arrowhead: the sweep is long
+      // and mostly sideways, so a head halfway along reads as travel. Stacked,
+      // the run is short and vertical — a head halfway along just floats there
+      // with line continuing past it, so it goes on the end instead.
+      pieces.push({
+        type: "line", arrow: true, headAt: singleCol ? "end" : "mid",
+        d: curvePath(s, c1, c2, e)
+      });
     }
 
-    // out of the last card -> end dot
-    var xl = exit(steps.length - 1);
-    var last = rects[rects.length - 1];
-    var endX = xl.x + last.w * 0.18;
-    var endY = xl.y + (narrow ? 44 : 64);
-    d += " M" + xl.x + " " + xl.y +
-         " C" + xl.x + " " + (xl.y + 26) + " " + endX + " " + (endY - 24) + " " + endX + " " + endY;
-
-    svg.appendChild(el("path", { "class": "ft-line", d: d, fill: "none" }));
-
-    // mid-path arrowheads, oriented to the curve's travel direction
-    var L = narrow ? 16 : 22, Wd = narrow ? 11 : 15;
-    heads.forEach(function (h) {
-      var p = cubicPoint(h.p0, h.c1, h.c2, h.p1, 0.5);
-      var t = cubicTangent(h.p0, h.c1, h.c2, h.p1, 0.5);
-      var n = { x: -t.y, y: t.x };
-      var tip = { x: p.x + t.x * L * 0.6, y: p.y + t.y * L * 0.6 };
-      var b1 = { x: p.x - t.x * L * 0.4 + n.x * Wd / 2, y: p.y - t.y * L * 0.4 + n.y * Wd / 2 };
-      var b2 = { x: p.x - t.x * L * 0.4 - n.x * Wd / 2, y: p.y - t.y * L * 0.4 - n.y * Wd / 2 };
-      svg.appendChild(el("path", {
-        "class": "ft-head",
-        d: "M" + tip.x + " " + tip.y + " L" + b1.x + " " + b1.y + " L" + b2.x + " " + b2.y + " Z"
-      }));
+    pieces.push({
+      type: "line", arrow: false,
+      d: "M " + lastOut.x.toFixed(1) + " " + lastOut.y.toFixed(1) +
+         " L " + endDot.x.toFixed(1) + " " + endDot.y.toFixed(1)
     });
+    pieces.push({ type: "dot", x: endDot.x, y: endDot.y });
+    return pieces;
+  }
 
-    svg.appendChild(el("circle", { "class": "ft-dot", cx: start.x, cy: start.y, r: narrow ? 5 : 6.5 }));
-    svg.appendChild(el("circle", { "class": "ft-dot", cx: endX, cy: endY, r: narrow ? 5 : 6.5 }));
+  function draw(animate) {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    var doAnim = animate && !reduce;
+    var delay = 0;
+
+    plan().forEach(function (pc) {
+      if (pc.type === "dot") {
+        var ring = el("circle", {
+          cx: pc.x.toFixed(1), cy: pc.y.toFixed(1), r: 9.5, fill: "none",
+          stroke: accent, "stroke-width": Math.max(1.4, WEIGHT - 0.6), opacity: 0.35
+        });
+        var dot = el("circle", { cx: pc.x.toFixed(1), cy: pc.y.toFixed(1), r: 4.6, fill: accent });
+        svg.appendChild(ring);
+        svg.appendChild(dot);
+        if (doAnim) {
+          [ring, dot].forEach(function (n) {
+            n.style.transformBox = "fill-box";
+            n.style.transformOrigin = "center";
+            n.style.transform = "scale(0)";
+            n.style.opacity = "0";
+            n.getBoundingClientRect();
+            n.style.transition = "transform .34s cubic-bezier(.34,1.56,.64,1) " + delay +
+              "s, opacity .2s ease " + delay + "s";
+          });
+          requestAnimationFrame(function () {
+            ring.style.transform = "scale(1)"; ring.style.opacity = "0.35";
+            dot.style.transform = "scale(1)"; dot.style.opacity = "1";
+          });
+          delay += 0.24;
+        }
+        return;
+      }
+
+      var line = el("path", {
+        d: pc.d, fill: "none", stroke: accent, "stroke-width": WEIGHT,
+        "stroke-linecap": "round", "stroke-linejoin": "round"
+      });
+      svg.appendChild(line);
+
+      var head = null;
+      if (pc.arrow) {
+        var total = line.getTotalLength();
+        var at = pc.headAt === "end" ? total : total / 2;
+        var tip = line.getPointAtLength(at);
+        var back = line.getPointAtLength(Math.max(0, at - 1.5));
+        head = el("path", {
+          d: arrowHead(tip, Math.atan2(tip.y - back.y, tip.x - back.x), 12),
+          fill: accent
+        });
+        svg.appendChild(head);
+      }
+
+      if (doAnim) {
+        var len = line.getTotalLength();
+        var dur = Math.min(1.0, Math.max(0.32, len / 620));
+        line.style.strokeDasharray = len;
+        line.style.strokeDashoffset = len;
+        if (head) head.style.opacity = "0";
+        line.getBoundingClientRect();
+        line.style.transition = "stroke-dashoffset " + dur + "s cubic-bezier(.5,.05,.3,1) " + delay + "s";
+        if (head) head.style.transition = "opacity .22s ease " + (delay + dur - 0.04) + "s";
+        requestAnimationFrame(function () {
+          line.style.strokeDashoffset = "0";
+          if (head) head.style.opacity = "1";
+        });
+        delay += dur + 0.06;
+      }
+    });
   }
 
   var pending = null;
   function schedule() {
     if (pending) return;
-    pending = requestAnimationFrame(function () { pending = null; draw(); });
+    pending = requestAnimationFrame(function () { pending = null; draw(false); });
   }
   window.addEventListener("resize", schedule);
   window.addEventListener("load", schedule);
-  draw();
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { draw(revealed && !reduce ? false : false); });
+  }
+
+  draw(false);
+
+  // draw the thread on first scroll-in; after that resizes just redraw static
+  if (!reduce && "IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (ents) {
+      ents.forEach(function (en) {
+        if (en.isIntersecting && !revealed) {
+          revealed = true;
+          draw(true);
+          io.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    io.observe(flow);
+  }
 })();

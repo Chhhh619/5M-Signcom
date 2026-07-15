@@ -11,7 +11,7 @@
 <meta property="og:title" content="Contact Us: Request a Signage Quotation | 5M Signcom Shah Alam">
 <meta property="og:description" content="Contact 5M Signcom Sdn Bhd, signboard manufacturer in Bukit Kemuning, Shah Alam. Call +603-5131 8877, WhatsApp +6016-626 1181, or request a quotation online.">
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/site.css?v=20260713n">
+<link rel="stylesheet" href="assets/css/site.css?v=20260716e">
 </head>
 <body>
 
@@ -88,7 +88,7 @@
 
         <form class="quote-form" id="quoteForm" novalidate>
           <h2 class="display" style="font-size:26px;margin-bottom:6px;"><span data-i18n="contact_h2a">Get a </span><span class="hl-free" data-i18n="contact_h2free">free</span><span data-i18n="contact_h2b"> quotation</span></h2>
-          <p class="sec-intro" style="margin-bottom:22px;font-size:15.5px;" data-i18n="contact_intro">Give us the location, rough size and your deadline. A photo or drawing helps us quote faster.</p>
+          <p class="sec-intro" style="margin-bottom:22px;font-size:15.5px;" data-i18n="contact_intro">Attach your artwork and a sample picture. A photo of where the sign will go helps us quote faster.</p>
           <div class="form-grid">
             <div class="field">
               <label for="f-name" data-i18n="f_name">Name</label>
@@ -105,7 +105,7 @@
               <span class="err mono" data-i18n="err_required">Please fill this in</span>
             </div>
             <div class="field">
-              <label for="f-service" data-i18n="f_service">What do you need?</label>
+              <label for="f-service" data-i18n="f_service">Type of signage</label>
               <select id="f-service" name="service">
                 <option data-i18n="o_notsure">Not sure yet, advise me</option>
                 <option data-i18n="s_signboard">Signboard</option>
@@ -115,13 +115,28 @@
                 <option data-i18n="s_cutout">Cut-out flat lettering</option>
                 <option data-i18n="s_acrylic">Acrylic works</option>
                 <option data-i18n="s_etching">Chemical etching</option>
-                <option data-i18n="s_waterjet">Water jet cutting</option>
+                <option data-i18n="s_laser">Laser cutting</option>
                 <option data-i18n="s_pylon">Pylon signs</option>
                 <option data-i18n="s_outdoor">Outdoor projects</option>
               </select>
             </div>
             <div class="field field-full">
-              <label for="f-msg" data-i18n="f_msg">Tell us about the job: location, size, deadline</label>
+              <label for="f-artwork" data-i18n="f_artwork">Artwork</label>
+              <input id="f-artwork" name="artwork" type="file" accept="image/*,.pdf">
+              <span class="field-hint" data-i18n="f_artwork_hint">Upload your logo or design — JPG, PNG or PDF</span>
+            </div>
+            <div class="field field-full">
+              <label for="f-sample" data-i18n="f_sample">Sample picture</label>
+              <input id="f-sample" name="sample" type="file" accept="image/*">
+              <span class="field-hint" data-i18n="f_sample_hint">A photo of the signage style you have in mind</span>
+            </div>
+            <div class="field field-full">
+              <label for="f-install" data-i18n="f_install">Installation location</label>
+              <input id="f-install" name="install" type="file" accept="image/*">
+              <span class="field-hint" data-i18n="f_install_hint">Photo of where the sign will go, if installation is needed</span>
+            </div>
+            <div class="field field-full">
+              <label for="f-msg" data-i18n="f_msg">Anything else? Location, deadline, details</label>
               <textarea id="f-msg" name="message"></textarea>
             </div>
           </div>
@@ -203,6 +218,6 @@
   </div>
 </footer>
 
-<script src="assets/js/site.js?v=20260713n"></script>
+<script src="assets/js/site.js?v=20260716e"></script>
 </body>
 </html>

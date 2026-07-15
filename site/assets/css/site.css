@@ -160,9 +160,9 @@ h2{font-size:clamp(28px,3.4vw,40px);margin-bottom:14px;}
 .clients-track{display:flex;align-items:center;gap:52px;width:max-content;animation:clients-scroll 90s linear infinite;}
 .clients-marquee:hover .clients-track{animation-play-state:paused;}
 @media (prefers-reduced-motion:reduce){.clients-track{animation:none;}}
-.client-logo{flex:0 0 auto;height:38px;display:flex;align-items:center;}
+.client-logo{flex:0 0 auto;height:52px;display:flex;align-items:center;}
 .client-logo img{
-  height:100%;width:auto;max-width:150px;display:block;object-fit:contain;
+  height:100%;width:auto;max-width:205px;display:block;object-fit:contain;
 }
 .client-text{
   font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-weight:600;font-size:19px;
@@ -173,8 +173,8 @@ h2{font-size:clamp(28px,3.4vw,40px);margin-bottom:14px;}
 @keyframes clients-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 @media (max-width:640px){
   .clients-track{gap:34px;animation-duration:65s;}
-  .client-logo{height:28px;}
-  .client-logo img{max-width:100px;}
+  .client-logo{height:38px;}
+  .client-logo img{max-width:140px;}
   .client-text{font-size:15px;}
 }
 
@@ -230,6 +230,10 @@ h2{font-size:clamp(28px,3.4vw,40px);margin-bottom:14px;}
 .proj-grid .sheet-photo img{width:100%;height:100%;object-fit:cover;}
 .proj-item{display:block;}
 
+/* section tag row that carries a CTA button on the right */
+.sec-tag-cta{align-items:center;margin-bottom:26px;}
+.gl-all-btn{flex:0 0 auto;font-size:14px;padding:10px 18px;}
+
 /* gallery filter tabs */
 .filterbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px;}
 .filterbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px;}
@@ -270,6 +274,27 @@ h2{font-size:clamp(28px,3.4vw,40px);margin-bottom:14px;}
   box-shadow:8px 8px 0 var(--red);transform:rotate(-1.5deg);
 }
 
+/* CIDB licence block (about) — copy beside a preview of the certificate */
+.cidb{
+  display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:center;
+  margin-top:8px;padding-bottom:46px;margin-bottom:44px;border-bottom:1px solid var(--line);
+}
+.cidb-facts{
+  display:grid;grid-template-columns:repeat(3,auto);justify-content:start;
+  gap:12px 34px;margin:22px 0 26px;
+  font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--steel);
+}
+.cidb-facts span span{display:block;margin-bottom:3px;}
+.cidb-facts b{color:var(--ink);font-weight:400;font-size:13px;letter-spacing:.04em;}
+.cidb-btn{cursor:pointer;font-size:15px;}
+.cidb-doc{
+  cursor:pointer;background:var(--panel);border:1px solid var(--ink);padding:10px;
+  box-shadow:8px 8px 0 rgba(22,24,29,.06);transition:border-color .15s ease,transform .15s ease;
+  max-width:300px;justify-self:end;
+}
+.cidb-doc img{width:100%;height:auto;display:block;}
+.cidb-doc:hover,.cidb-doc:focus-visible{border-color:var(--red);transform:translateY(-2px);}
+
 /* partnership call-out row (about) */
 .partner-row{margin-top:44px;border-top:1px solid var(--line);padding-top:32px;}
 .partner-note{
@@ -301,21 +326,31 @@ h2{font-size:clamp(28px,3.4vw,40px);margin-bottom:14px;}
     linear-gradient(90deg,var(--grid) 1px,transparent 1px);
   background-size:48px 48px,48px 48px,12px 12px,12px 12px;
 }
-.flow{display:flex;flex-direction:column;margin-top:44px;}
-.flow-step{
-  width:min(48%,470px);background:var(--panel);border:1px solid var(--ink);
-  padding:22px 26px 24px;position:relative;
+/* the 4 step cards zigzag across 2 columns; flow.js threads one continuous
+   red leader line through them (drawn into .flow-thread, measured from the
+   real card boxes, so the geometry follows the grid at any width) */
+.flow{
+  position:relative;
+  display:grid;grid-template-columns:1fr 1fr;
+  column-gap:clamp(28px,7vw,116px);
+  row-gap:clamp(64px,9vw,108px);
+  margin-top:clamp(52px,7vw,84px);
+  margin-bottom:34px;
 }
-.flow-step::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--red);}
-.flow-right{align-self:flex-end;}
-.flow-num{font-size:clamp(52px,6vw,80px);line-height:.9;color:var(--red);margin-bottom:10px;}
-.flow-step h3{font-size:24px;margin-bottom:8px;}
-.flow-step p{color:var(--steel);font-size:15.5px;max-width:34em;}
-.flow-arrow{width:min(42%,360px);height:auto;align-self:center;margin:2px 0;}
-.flow-arrow-m{display:none;}
-.flow-rev{transform:scaleX(-1);}
-.fa-line{stroke:var(--red);stroke-width:3;stroke-linecap:round;fill:none;}
-.fa-tip{fill:var(--red);}
+.flow-thread{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:0;}
+.flow-step{
+  position:relative;z-index:1;
+  background:var(--panel);border:1.6px solid var(--red);
+  padding:clamp(20px,2.6vw,30px);
+  box-shadow:6px 8px 0 rgba(22,24,29,.055);
+}
+.flow-step:nth-of-type(1){grid-column:1;grid-row:1;}
+.flow-step:nth-of-type(2){grid-column:2;grid-row:2;}
+.flow-step:nth-of-type(3){grid-column:1;grid-row:3;}
+.flow-step:nth-of-type(4){grid-column:2;grid-row:4;}
+.flow-num{font-size:clamp(42px,5vw,62px);line-height:.84;color:var(--red);margin-bottom:14px;}
+.flow-step h3{font-size:20px;letter-spacing:.04em;margin-bottom:10px;}
+.flow-step p{color:var(--steel);font-size:15px;line-height:1.55;max-width:34ch;}
 
 /* 3D viewer */
 .viewer-wrap{
@@ -365,6 +400,7 @@ h2{font-size:clamp(28px,3.4vw,40px);margin-bottom:14px;}
   position:relative;width:min(1080px,100%);height:min(70vh,720px);
   display:flex;align-items:center;justify-content:center;
   border:1px solid rgba(255,255,255,.9);background:#000;
+  touch-action:manipulation;
 }
 .lb-img{
   display:block;width:100%;height:100%;object-fit:contain;
@@ -379,9 +415,14 @@ h2{font-size:clamp(28px,3.4vw,40px);margin-bottom:14px;}
 .lb-count{color:#8A8F9A;white-space:nowrap;}
 .lb button{
   font:inherit;cursor:pointer;background:none;border:1px solid rgba(255,255,255,.4);
-  color:#fff;width:46px;height:46px;font-size:22px;line-height:1;
+  color:#fff;width:46px;height:46px;font-size:22px;line-height:1;touch-action:manipulation;
 }
-.lb button:hover{background:var(--red);border-color:var(--red);}
+/* only fill on real hover — on a touch screen :hover sticks after a tap, which
+   left the button sitting there filled in until you tapped elsewhere */
+@media (hover:hover){
+  .lb button:hover{background:var(--red);border-color:var(--red);}
+}
+.lb button:active{background:var(--red);border-color:var(--red);}
 .lb button:focus-visible{outline:2px solid #fff;outline-offset:2px;}
 .lb-close{position:absolute;top:18px;right:18px;}
 .lb-prev,.lb-next{position:absolute;top:50%;transform:translateY(-50%);}
@@ -393,11 +434,23 @@ body.lb-open{overflow:hidden;}
 .proj-item:focus-visible{outline:2px solid var(--red);outline-offset:3px;}
 @media (max-width:700px){
   .lb{padding:12px;}
-  .lb button{width:42px;height:42px;}
-  .lb-close{top:10px;right:10px;}
-  .lb-prev{left:6px;}
-  .lb-next{right:6px;}
   .lb-stage{height:min(64vh,560px);}
+  .lb-close{top:10px;right:10px;width:42px;height:42px;}
+  /* prev/next become full-height tap zones down the sides of the photo,
+     not just the small arrow glyph — a precise tap on a 42px circle is
+     what was causing accidental double-taps (and the browser's native
+     double-tap-to-zoom) when flicking through photos quickly */
+  .lb .lb-prev,.lb .lb-next{
+    top:0;bottom:0;transform:none;height:auto;width:30%;max-width:120px;
+    display:flex;align-items:center;border:none;background:none;
+    font-size:30px;touch-action:manipulation;
+  }
+  .lb .lb-prev{left:0;justify-content:flex-start;padding-left:6px;}
+  .lb .lb-next{right:0;justify-content:flex-end;padding-right:6px;}
+  /* these zones are ~30% of the photo, so filling them red reads as a slab
+     covering the image — they only flash a faint wash while actually pressed */
+  .lb .lb-prev:hover,.lb .lb-next:hover{background:none;border:none;}
+  .lb .lb-prev:active,.lb .lb-next:active{background:rgba(255,255,255,.14);border:none;}
 }
 
 /* contact */
@@ -463,7 +516,10 @@ footer{background:var(--ink);color:#B9BDC6;padding:44px 0 30px;font-size:14.5px;
 /* ---------- responsive ---------- */
 @media (max-width:960px){
   .hero-inner{grid-template-columns:1fr;gap:44px;padding-top:52px;padding-bottom:60px;}
-  .hero-sheet{justify-self:start;}
+  /* once the hero stacks, the photo is the only thing on its row — let it span
+     the full container instead of staying capped at its two-column width, which
+     left an awkward gap on tablets and unfolded foldables */
+  .hero-sheet{justify-self:stretch;max-width:none;}
   .svc-grid{grid-template-columns:1fr;}
   .svc-sheets{grid-template-columns:1fr;}
   .svc-hero{grid-template-columns:1fr;gap:34px;}
@@ -472,6 +528,13 @@ footer{background:var(--ink);color:#B9BDC6;padding:44px 0 30px;font-size:14.5px;
   .contact-grid{grid-template-columns:1fr;}
   .foot-grid{grid-template-columns:1fr;gap:26px;}
   .prose-grid{grid-template-columns:1fr;gap:30px;}
+  /* the tagline plate is sized to its own text in the two-column layout; once
+     stacked it's alone on its row, so let it span rather than leave a gap */
+  .prose .tag-sign{display:block;max-width:none;text-align:center;}
+  /* keep the certificate beside the copy on tablets — stacking it left a
+     small orphaned box with a column of dead space next to it — just tighter */
+  .cidb{grid-template-columns:1.4fr .6fr;gap:30px;}
+  .cidb-doc{max-width:210px;}
   .stat-row{grid-template-columns:1fr 1fr;}
   .install-grid{grid-template-columns:1fr;gap:30px;}
   .install-photos{height:440px;}
@@ -492,6 +555,12 @@ footer{background:var(--ink);color:#B9BDC6;padding:44px 0 30px;font-size:14.5px;
   .filterbar{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px;}
   .filterbar::-webkit-scrollbar{display:none;}
   .filterbar button{white-space:nowrap;flex:0 0 auto;}
+  /* no room for two columns: stack, and centre the certificate so it reads as
+     part of the block rather than an offcut left hanging in the corner */
+  .cidb{grid-template-columns:1fr;gap:24px;padding-bottom:36px;margin-bottom:34px;}
+  .cidb-facts{grid-template-columns:1fr 1fr;gap:16px 24px;margin:20px 0 22px;}
+  .cidb-btn{width:100%;text-align:center;}
+  .cidb-doc{justify-self:center;max-width:250px;box-shadow:6px 6px 0 rgba(22,24,29,.06);}
 }
 @media (max-width:640px){
   /* --- mobile rhythm pass: tighter, deliberate spacing --- */
@@ -537,12 +606,21 @@ footer{background:var(--ink);color:#B9BDC6;padding:44px 0 30px;font-size:14.5px;
   .install-photos .ph-tall{grid-column:1 / -1;grid-row:auto;aspect-ratio:4/3;}
   .filterbar{gap:6px;margin-bottom:24px;}
   .filterbar button{padding:7px 12px;font-size:12px;}
-  .flow{margin-top:28px;}
-  .flow-step{width:100%;padding:16px 16px 18px;}
-  .flow-num{font-size:44px;}
-  .flow-step h3{font-size:20px;}
-  .flow-arrow{display:none;}
-  .flow-arrow-m{display:block;width:84px;height:auto;align-self:center;margin:0;}
+  .flow{
+    grid-template-columns:1fr;
+    row-gap:clamp(66px,17vw,86px);
+    margin-top:34px;
+  }
+  /* stack: every card in column 1, flow.js then draws a single-column thread */
+  .flow-step:nth-of-type(1),.flow-step:nth-of-type(2),
+  .flow-step:nth-of-type(3),.flow-step:nth-of-type(4){grid-column:1;}
+  .flow-step:nth-of-type(1){grid-row:1;}
+  .flow-step:nth-of-type(2){grid-row:2;}
+  .flow-step:nth-of-type(3){grid-row:3;}
+  .flow-step:nth-of-type(4){grid-row:4;}
+  .flow-step{padding:18px 18px 20px;}
+  .flow-num{font-size:44px;margin-bottom:10px;}
+  .flow-step h3{font-size:19px;}
   .why-grid{gap:20px;}
   .stat-row{grid-template-columns:1fr 1fr;}
   .stat{padding:18px 16px;}

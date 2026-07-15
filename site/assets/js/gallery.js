@@ -143,27 +143,40 @@
 
   /* ---- wire up the project cards ---- */
   cards.forEach(function (card) {
-    card.setAttribute("role", "button");
-    card.setAttribute("tabindex", "0");
+    // a real <button> is already focusable and already fires click on
+    // Enter/Space — only fake-button elements need the role/tabindex/keydown
+    var nativeButton = card.tagName === "BUTTON";
+    if (!nativeButton) {
+      card.setAttribute("role", "button");
+      card.setAttribute("tabindex", "0");
+    }
     card.setAttribute("aria-haspopup", "dialog");
     // keep the photo-count badge in sync with the manifest
     var countEl = card.querySelector(".gl-count");
     var set = imagesFor(card.getAttribute("data-cat"));
     if (countEl && set.length) countEl.textContent = set.length;
     function activate() {
+      // an explicit data-label wins (the "all projects" button — kept in sync
+      // with the active language by site.js via data-i18n-attr); otherwise the
       // caption (gallery page), the service sheet's heading (services page),
       // or the card's own heading (home service groups)
-      var titleEl = card.querySelector(".sheet-block b");
-      if (!titleEl) {
-        var sheet = card.closest ? card.closest(".svc-sheet") : null;
-        if (sheet) titleEl = sheet.querySelector("h3");
+      var label = card.getAttribute("data-label");
+      if (!label) {
+        var titleEl = card.querySelector(".sheet-block b");
+        if (!titleEl) {
+          var sheet = card.closest ? card.closest(".svc-sheet") : null;
+          if (sheet) titleEl = sheet.querySelector("h3");
+        }
+        if (!titleEl) titleEl = card.querySelector("h3");
+        if (titleEl) label = titleEl.textContent;
       }
-      if (!titleEl) titleEl = card.querySelector("h3");
-      open(card.getAttribute("data-cat"), titleEl ? titleEl.textContent : "");
+      open(card.getAttribute("data-cat"), label || "");
     }
     card.addEventListener("click", activate);
-    card.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activate(); }
-    });
+    if (!nativeButton) {
+      card.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activate(); }
+      });
+    }
   });
 })();

@@ -65,12 +65,12 @@ window.GALLERY = {
   "assets/img/gallery/muji/muji-03.jpg",
   "assets/img/gallery/muji/muji-04.jpg"
  ],
+ /* nikoneko-05.jpg is byte-identical to nikoneko-03.jpg, so it is left out */
  "nikoneko": [
   "assets/img/gallery/nikoneko/nikoneko-01.jpg",
   "assets/img/gallery/nikoneko/nikoneko-02.jpg",
   "assets/img/gallery/nikoneko/nikoneko-03.jpg",
   "assets/img/gallery/nikoneko/nikoneko-04.jpg",
-  "assets/img/gallery/nikoneko/nikoneko-05.jpg",
   "assets/img/gallery/nikoneko/nikoneko-06.jpg"
  ],
  "sfc": [
@@ -122,7 +122,6 @@ window.GALLERY = {
  "3d": [
   "assets/img/gallery/aicb/AICB6.webp",
   "assets/img/proj-3d-leadresidences.jpg",
-  "assets/img/gallery/aicb.jpg",
   "assets/img/gallery/muji/muji-01.jpg",
   "assets/img/gallery/3dled-05.jpg",
   "assets/img/gallery/3dled-07.jpg"
@@ -140,10 +139,13 @@ window.GALLERY = {
   "assets/img/gallery/D Laman Rasa/D LAMAN RASA6.jpeg",
   "assets/img/gallery/D Laman Rasa/D LAMAN RASA7.jpeg"
  ],
+ /* NB: sfc/sfc-01.jpg is the same file as lightbox-07.jpg above, so it is
+    deliberately not repeated here — it still appears in the "sfc" set.
+    gallery.js dedups by path, not by content, so identical bytes under two
+    names would otherwise show twice. */
  "lightbox": [
   "assets/img/gallery/lightbox-07.jpg",
   "assets/img/proj-lightbox-jayacom.jpg",
-  "assets/img/gallery/sfc/sfc-01.jpg",
   "assets/img/gallery/lightbox-01.jpg",
   "assets/img/gallery/lightbox-02.jpg",
   "assets/img/gallery/lightbox-03.jpg",

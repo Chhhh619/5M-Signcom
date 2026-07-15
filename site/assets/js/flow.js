@@ -92,7 +92,11 @@
         s = { x: A.x + A.w * 0.5, y: A.bottom };
         e = { x: B.x + B.w * 0.5, y: B.y };
         dy = e.y - s.y;
-        var bow = (i % 2 === 0 ? 1 : -1) * Math.min(44, A.w * 0.30);
+        // the sideways bow has to stay small next to the vertical gap it spans,
+        // or the connector reads as a hook jutting out of the card rather than a
+        // line running between two — on a phone that gap is only ~50px
+        var bow = (i % 2 === 0 ? 1 : -1) *
+          Math.min(44, A.w * 0.30, Math.abs(dy) * 0.42);
         c1 = { x: s.x + bow, y: s.y + dy * 0.45 };
         c2 = { x: e.x + bow, y: e.y - dy * 0.45 };
       } else {

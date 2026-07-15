@@ -3,7 +3,9 @@
    - brand/project keys -> used by the Projects page (gallery.html) and the
      home-page project cards, one card per client (direct customers only).
    - sign-type keys -> used by the Services page photo sliders, everything we
-     have of that sign type across all projects. */
+     have of that sign type across all projects.
+   The FIRST image of each sign-type set is also that service card's photo on
+   services.html — keep the two in sync when either changes. */
 window.GALLERY = {
 
  /* ---------- brands / projects (gallery.html) ---------- */
@@ -20,7 +22,7 @@ window.GALLERY = {
   "assets/img/gallery/aicb/AICB1.jpeg",
   "assets/img/gallery/aicb/AICB2.jpg",
   "assets/img/gallery/aicb/AICB3.jpeg",
-  "assets/img/gallery/aicb/AICB6.jpeg",
+  "assets/img/gallery/aicb/AICB6.webp",
   "assets/img/gallery/aicb/AICB9.jpeg",
   "assets/img/gallery/aicb/AICB10.jpeg"
  ],
@@ -84,26 +86,53 @@ window.GALLERY = {
   "assets/img/gallery/vivace/vivace-03.jpg",
   "assets/img/gallery/vivace/vivace-04.jpg"
  ],
+ "sireh": [
+  "assets/img/gallery/sireh/sireh-01.jpg",
+  "assets/img/gallery/sireh/sireh-02.jpg",
+  "assets/img/gallery/sireh/sireh-03.jpg"
+ ],
  "grandflexible": [
   "assets/img/gallery/GRAND FLEXIBLE/GRAND FLEXIBLE BAGS2.jpeg",
   "assets/img/gallery/GRAND FLEXIBLE/GRAND FLEXIBLE BAGS3.jpeg",
   "assets/img/gallery/GRAND FLEXIBLE/GRAND FLEXIBLE BAGS6.jpeg"
  ],
 
+ /* ---------- documents (about.html) ---------- */
+ /* the CIDB registration certificate, opened in the same lightbox as the
+    project photos — page 1 is the certificate, page 2 its conditions */
+ "cidb": [
+  "assets/img/cidb/cidb-license-1.webp",
+  "assets/img/cidb/cidb-license-2.webp"
+ ],
+
  /* ---------- sign types (services.html) ---------- */
  "signboard": [
-  "assets/img/hero-happyfeet.jpg",
-  "assets/img/gallery/mygenius.jpg",
+  "assets/img/gallery/signboard-01.jpg",
   "assets/img/gallery/signboard-02.jpg",
   "assets/img/gallery/signboard-03.jpg",
   "assets/img/gallery/signboard-04.jpg",
+  "assets/img/gallery/signboard-05.jpg",
   "assets/img/gallery/signboard-06.jpg",
+  "assets/img/gallery/signboard-07.jpg",
+  "assets/img/gallery/signboard-08.jpg",
+  "assets/img/gallery/signboard-09.jpg",
+  "assets/img/gallery/mygenius.jpg",
   "assets/img/gallery/3d-08.jpg"
  ],
+ "3d": [
+  "assets/img/gallery/aicb/AICB6.webp",
+  "assets/img/proj-3d-leadresidences.jpg",
+  "assets/img/gallery/aicb.jpg",
+  "assets/img/gallery/muji/muji-01.jpg",
+  "assets/img/gallery/3dled-05.jpg",
+  "assets/img/gallery/3dled-07.jpg"
+ ],
  "3dled": [
+  "assets/img/gallery/nikoneko/nikoneko-01.jpg",
   "assets/img/gallery/yamaha.jpg",
   "assets/img/proj-acrylic-setiaecoglades.jpg",
-  "assets/img/gallery/nikoneko/nikoneko-01.jpg",
+  "assets/img/gallery/3dled-02.jpg",
+  "assets/img/gallery/3dled-03.jpg",
   "assets/img/gallery/3dled-04.jpg",
   "assets/img/gallery/3dled-08.jpg",
   "assets/img/gallery/3dled-11.jpg",
@@ -111,39 +140,36 @@ window.GALLERY = {
   "assets/img/gallery/D Laman Rasa/D LAMAN RASA6.jpeg",
   "assets/img/gallery/D Laman Rasa/D LAMAN RASA7.jpeg"
  ],
- "3d": [
-  "assets/img/proj-3d-leadresidences.jpg",
-  "assets/img/gallery/aicb.jpg",
-  "assets/img/gallery/muji/muji-01.jpg",
-  "assets/img/gallery/3dled-05.jpg",
-  "assets/img/gallery/3dled-07.jpg"
- ],
  "lightbox": [
+  "assets/img/gallery/lightbox-07.jpg",
   "assets/img/proj-lightbox-jayacom.jpg",
   "assets/img/gallery/sfc/sfc-01.jpg",
   "assets/img/gallery/lightbox-01.jpg",
   "assets/img/gallery/lightbox-02.jpg",
   "assets/img/gallery/lightbox-03.jpg",
-  "assets/img/gallery/lightbox-07.jpg",
+  "assets/img/gallery/lightbox-04.jpg",
+  "assets/img/gallery/lightbox-05.jpg",
   "assets/img/gallery/lightbox-08.jpg"
  ],
  "cutout": [
+  "assets/img/gallery/cutout-04.jpg",
   "assets/img/proj-cutout-islandvilla.jpg",
   "assets/img/proj-3dled-learninghub.jpg",
   "assets/img/gallery/um.jpg",
   "assets/img/gallery/mygenius2.jpg",
   "assets/img/gallery/cutout-01.jpg",
   "assets/img/gallery/cutout-03.jpg",
-  "assets/img/gallery/cutout-04.jpg",
   "assets/img/gallery/acrylic-02.jpg",
   "assets/img/gallery/acrylic-04.jpg",
   "assets/img/gallery/acrylic-05.jpg"
  ],
  "acrylic": [
+  "assets/img/gallery/acrylic-01.jpg",
   "assets/img/gallery/acrylic-03.jpg",
   "assets/img/gallery/acrylic-06.jpg",
   "assets/img/gallery/acrylic-07.jpg",
   "assets/img/gallery/acrylic-08.jpg",
+  "assets/img/gallery/acrylic-09.jpg",
   "assets/img/gallery/aidil.jpg"
  ],
  "etching": [
@@ -155,15 +181,15 @@ window.GALLERY = {
   "assets/img/gallery/etching-07.jpg",
   "assets/img/gallery/etching-08.jpg"
  ],
- "waterjet": [
-  "assets/img/gallery/waterjet-01.jpg"
+ "laser": [
+  "assets/img/gallery/laser-cutting-01.jpg"
  ],
  "pylon": [
+  "assets/img/gallery/pylon-04.jpeg",
   "assets/img/proj-pylon-cergas.jpg",
   "assets/img/gallery/pylon-01.jpg",
   "assets/img/gallery/pylon-02.jpg",
   "assets/img/gallery/pylon-03.jpeg",
-  "assets/img/gallery/pylon-04.jpeg",
   "assets/img/gallery/pylon-05.jpg",
   "assets/img/gallery/pylon-06.jpg",
   "assets/img/gallery/pylon-07.jpg",
@@ -171,10 +197,10 @@ window.GALLERY = {
   "assets/img/gallery/installation-pylon.jpg"
  ],
  "outdoor": [
+  "assets/img/gallery/outdoor-04.jpg",
   "assets/img/proj-outdoor-bbtone.jpg",
   "assets/img/gallery/outdoor-02.jpg",
   "assets/img/gallery/outdoor-03.jpg",
-  "assets/img/gallery/outdoor-04.jpg",
   "assets/img/gallery/outdoor-05.jpg",
   "assets/img/gallery/outdoor-06.jpg",
   "assets/img/gallery/outdoor-07.jpg",

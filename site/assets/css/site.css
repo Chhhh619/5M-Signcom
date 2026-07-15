@@ -274,6 +274,26 @@ h2{font-size:clamp(28px,3.4vw,40px);margin-bottom:14px;}
   box-shadow:8px 8px 0 var(--red);transform:rotate(-1.5deg);
 }
 
+/* CIDB licence block (about) — copy beside a preview of the certificate */
+.cidb{
+  display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:center;
+  margin-top:8px;padding-bottom:46px;margin-bottom:44px;border-bottom:1px solid var(--line);
+}
+.cidb-facts{
+  display:flex;flex-wrap:wrap;gap:12px 34px;margin:22px 0 26px;
+  font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--steel);
+}
+.cidb-facts span span{display:block;margin-bottom:3px;}
+.cidb-facts b{color:var(--ink);font-weight:400;font-size:13px;letter-spacing:.04em;}
+.cidb-btn{cursor:pointer;font-size:15px;}
+.cidb-doc{
+  cursor:pointer;background:var(--panel);border:1px solid var(--ink);padding:10px;
+  box-shadow:8px 8px 0 rgba(22,24,29,.06);transition:border-color .15s ease,transform .15s ease;
+  max-width:300px;justify-self:end;
+}
+.cidb-doc img{width:100%;height:auto;display:block;}
+.cidb-doc:hover,.cidb-doc:focus-visible{border-color:var(--red);transform:translateY(-2px);}
+
 /* partnership call-out row (about) */
 .partner-row{margin-top:44px;border-top:1px solid var(--line);padding-top:32px;}
 .partner-note{
@@ -507,6 +527,11 @@ footer{background:var(--ink);color:#B9BDC6;padding:44px 0 30px;font-size:14.5px;
   .contact-grid{grid-template-columns:1fr;}
   .foot-grid{grid-template-columns:1fr;gap:26px;}
   .prose-grid{grid-template-columns:1fr;gap:30px;}
+  /* the tagline plate is sized to its own text in the two-column layout; once
+     stacked it's alone on its row, so let it span rather than leave a gap */
+  .prose .tag-sign{display:block;max-width:none;}
+  .cidb{grid-template-columns:1fr;gap:28px;}
+  .cidb-doc{justify-self:start;max-width:260px;}
   .stat-row{grid-template-columns:1fr 1fr;}
   .install-grid{grid-template-columns:1fr;gap:30px;}
   .install-photos{height:440px;}

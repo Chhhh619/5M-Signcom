@@ -96,6 +96,7 @@ h1{font-size:clamp(38px,5vw,58px);margin-bottom:20px;}
 .btn-red:hover{background:var(--red-dark);}
 .btn-ghost{border-color:var(--ink);color:var(--ink);background:transparent;}
 .btn-ghost:hover{background:var(--ink);color:#fff;}
+.btn-lg{display:block;width:100%;text-align:center;font-size:18px;padding:17px 28px;}
 .chips{display:flex;gap:10px;flex-wrap:wrap;}
 .chip{font-size:11.5px;letter-spacing:.06em;color:var(--steel);border:1px solid var(--line);background:#fff;padding:5px 10px;}
 
@@ -454,45 +455,27 @@ body.lb-open{overflow:hidden;}
 }
 
 /* contact */
-.contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:26px;align-items:start;}
-.info-card{background:var(--panel);border:1px solid var(--ink);}
-.info-head{border-bottom:1px solid var(--ink);padding:14px 22px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);}
-.info-body{padding:22px;display:grid;gap:18px;}
+/* the map sits left of the contact card, so both columns run to the same height */
+.contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:26px;align-items:stretch;}
+.contact-grid .map-col{order:-1;}
+.info-card{background:var(--panel);border:1px solid var(--ink);display:flex;flex-direction:column;}
+.info-body{padding:26px 22px 22px;display:flex;flex-direction:column;gap:18px;flex:1;}
+/* the card leads with the offer rather than a title bar, so it carries no rule */
+.info-title{font-size:clamp(30px,3vw,38px);color:var(--red);margin-bottom:2px;}
 .info-item .mono{display:block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--steel);margin-bottom:3px;}
 .info-item a{text-decoration:none;font-weight:600;}
 .info-item a:hover{color:var(--red);}
 .info-item p{font-size:15.5px;}
+/* directions line under the address, quieter than the address itself */
+.info-item .info-note{font-size:13.5px;color:var(--steel);margin-top:6px;}
 .maplink{display:block;font-size:14px;color:var(--red);font-weight:600;text-decoration:none;margin-top:4px;}
-.maplink:first-of-type{margin-top:0;}
+.maplink:first-of-type{margin-top:10px;}
 .maplink:hover{text-decoration:underline;}
-.quote-form{background:var(--panel);border:1px solid var(--line);padding:26px;}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.field{display:flex;flex-direction:column;gap:5px;}
-.field-full{grid-column:1 / -1;}
-.field label{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--steel);font-family:ui-monospace,Consolas,monospace;}
-.field input,.field select,.field textarea{
-  font:inherit;font-size:15.5px;padding:10px 12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:0;
-}
-.field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--red);outline-offset:0;border-color:var(--red);}
-.field textarea{resize:vertical;min-height:96px;}
-.field-error input,.field-error select,.field-error textarea{border-color:var(--red);}
-.field .err{font-size:12px;color:var(--red);display:none;}
-.field-error .err{display:block;}
-.form-foot{margin-top:18px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
-.form-note{font-size:12.5px;color:var(--steel);max-width:30em;}
-.form-ok{margin-top:14px;font-size:14.5px;color:var(--ink);background:var(--paper);border:1px solid var(--red);padding:10px 14px;display:none;}
-.form-ok.show{display:block;}
-.hl-free{color:var(--red);}
-.field-hint{font-size:11.5px;color:var(--steel);line-height:1.4;}
-.field input[type="file"]{padding:8px 12px;font-size:14px;cursor:pointer;}
-.field input[type="file"]::file-selector-button{
-  font:inherit;font-size:12px;font-weight:600;letter-spacing:.04em;cursor:pointer;margin-right:12px;
-  border:1px solid var(--line);background:#fff;color:var(--ink);padding:7px 13px;border-radius:0;
-}
-.field input[type="file"]::file-selector-button:hover{border-color:var(--red);color:var(--red-dark);}
-
-/* map embed */
-.map-frame{border:1px solid var(--ink);width:100%;height:340px;display:block;filter:grayscale(.25);}
+/* the quotation button stays at the foot of the card however tall it grows */
+.info-cta{margin-top:auto;padding-top:18px;border-top:1px solid var(--line);}
+/* map embed: the column carries the border, the frame fills what is left of it */
+.map-col{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--ink);}
+.map-frame{border:0;width:100%;flex:1;min-height:520px;display:block;filter:grayscale(.25);}
 
 /* generic CTA band */
 .cta-band{background:var(--ink);color:#fff;}
@@ -525,7 +508,11 @@ footer{background:var(--ink);color:#B9BDC6;padding:44px 0 30px;font-size:14.5px;
   .svc-hero{grid-template-columns:1fr;gap:34px;}
   .proj-grid{grid-template-columns:1fr 1fr;}
   .why-grid{grid-template-columns:1fr;gap:26px;}
+  /* stacked, the contact details and the quotation button come first; the map
+     follows in source order, so drop the desktop reordering */
   .contact-grid{grid-template-columns:1fr;}
+  .contact-grid .map-col{order:0;}
+  .map-frame{min-height:340px;}
   .foot-grid{grid-template-columns:1fr;gap:26px;}
   .prose-grid{grid-template-columns:1fr;gap:30px;}
   /* the tagline plate is sized to its own text in the two-column layout; once
@@ -626,11 +613,9 @@ footer{background:var(--ink);color:#B9BDC6;padding:44px 0 30px;font-size:14.5px;
   .stat{padding:18px 16px;}
   .stat .num{font-size:34px;}
 
-  .form-grid{grid-template-columns:1fr;gap:13px;}
-  .quote-form{padding:20px 16px;}
-  .info-body{padding:18px 16px;gap:15px;}
-  .info-head{padding:12px 16px;}
-  .map-frame{height:260px;}
+  .info-body{padding:20px 16px 18px;gap:15px;}
+  .map-frame{min-height:280px;}
+  .btn-lg{font-size:16.5px;padding:15px 22px;}
 
   .cta-band-inner{padding-top:30px;padding-bottom:30px;gap:18px;}
   .cta-band .cta-row{width:100%;}

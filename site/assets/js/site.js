@@ -57,41 +57,6 @@
     a.setAttribute("href", href + (href.indexOf("?") === -1 ? "?" : "&") + "text=" + encodeURIComponent(WA_MSG));
   });
 
-  /* ---- contact form (demo, with inline validation) ---- */
-  var form = document.getElementById("quoteForm");
-  if (form) {
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var ok = true;
-      ["f-name", "f-phone"].forEach(function (id) {
-        var input = document.getElementById(id);
-        if (!input) return;
-        var field = input.closest(".field");
-        if (!input.value.trim()) {
-          field.classList.add("field-error");
-          ok = false;
-        } else {
-          field.classList.remove("field-error");
-        }
-      });
-      if (!ok) {
-        var firstErr = form.querySelector(".field-error input");
-        if (firstErr) firstErr.focus();
-        return;
-      }
-      document.getElementById("formOk").classList.add("show");
-      form.querySelectorAll(".field-error").forEach(function (f) {
-        f.classList.remove("field-error");
-      });
-    });
-    form.addEventListener("input", function (e) {
-      var field = e.target.closest(".field");
-      if (field && field.classList.contains("field-error") && e.target.value.trim()) {
-        field.classList.remove("field-error");
-      }
-    });
-  }
-
   /* ---- project gallery filter ---- */
   var filterbar = document.querySelector(".filterbar");
   if (filterbar) {
@@ -255,23 +220,13 @@
       /* ---------- CONTACT ---------- */
       ct_crumb: "Contact us",
       ct_h1: "Tell us what your premises need",
-      ct_lede: "Send a photo of your frontage on WhatsApp for the fastest reply, or use the form and we'll call you back.",
+      ct_lede: "Send a photo of your frontage on WhatsApp for the fastest reply. You can also call the office or drop us an email, and all the details are below.",
       tag_contact: "Contact",
-      contact_h2a: "Get a ", contact_h2free: "free", contact_h2b: " quotation",
-      contact_intro: "Attach your artwork and a sample picture. A photo of where the sign will go helps us quote faster.",
-      info_head: "5M Signcom Sdn Bhd, 200801011102 (812390-K)",
+      ct_quote_h: "Request a free quotation today",
       lbl_workshop: "Workshop & office", lbl_directions: "Open in Google Maps →",
       lbl_tel: "Telephone", lbl_fax: "Fax", lbl_email: "Email",
-      lbl_map: "Find us", map_note: "Bukit Kemuning, Seksyen 32, off Jalan Sungai Jerluh, a short drive from Kesas and the Kemuning interchange.",
-      f_name: "Name", f_company: "Company", f_phone: "Phone / WhatsApp", f_service: "Type of signage",
-      o_notsure: "Not sure yet, advise me",
-      f_artwork: "Artwork", f_artwork_hint: "Upload your logo or design — JPG, PNG or PDF",
-      f_sample: "Sample picture", f_sample_hint: "A photo of the signage style you have in mind",
-      f_install: "Installation location", f_install_hint: "Photo of where the sign will go, if installation is needed",
-      f_msg: "Anything else? Location, deadline, details",
-      err_required: "Please fill this in",
-      form_note: "Design mockup: this form does not send yet. The live site will deliver enquiries to signcom5m@yahoo.com.",
-      form_ok: "✓ In the live website, your enquiry would now be on its way to 5M Signcom."
+      map_note: "Bukit Kemuning, Seksyen 32, off Jalan Sungai Jerluh, a short drive from Kesas and the Kemuning interchange.",
+      ct_wa_cta: "WhatsApp us now"
     },
 
     ms: {
@@ -404,23 +359,13 @@
 
       ct_crumb: "Hubungi kami",
       ct_h1: "Beritahu kami keperluan premis anda",
-      ct_lede: "Hantar foto hadapan kedai anda melalui WhatsApp untuk jawapan terpantas, atau isi borang dan kami akan hubungi anda semula.",
+      ct_lede: "Hantar foto hadapan kedai anda melalui WhatsApp untuk jawapan terpantas. Anda juga boleh telefon pejabat atau e-mel kami, dan semua butirannya ada di bawah.",
       tag_contact: "Hubungi",
-      contact_h2a: "Dapatkan sebut harga ", contact_h2free: "percuma", contact_h2b: "",
-      contact_intro: "Lampirkan karya seni dan gambar contoh anda. Foto lokasi pemasangan membantu kami sebut harga dengan lebih pantas.",
-      info_head: "5M Signcom Sdn Bhd, 200801011102 (812390-K)",
+      ct_quote_h: "Minta sebut harga percuma hari ini",
       lbl_workshop: "Bengkel & pejabat", lbl_directions: "Buka di Google Maps →",
       lbl_tel: "Telefon", lbl_fax: "Faks", lbl_email: "E-mel",
-      lbl_map: "Cari kami", map_note: "Bukit Kemuning, Seksyen 32, dari Jalan Sungai Jerluh, tidak jauh dari Kesas dan susur Kemuning.",
-      f_name: "Nama", f_company: "Syarikat", f_phone: "Telefon / WhatsApp", f_service: "Jenis papan tanda",
-      o_notsure: "Belum pasti, nasihatkan saya",
-      f_artwork: "Karya seni", f_artwork_hint: "Muat naik logo atau reka bentuk anda — JPG, PNG atau PDF",
-      f_sample: "Gambar contoh", f_sample_hint: "Foto gaya papan tanda yang anda inginkan",
-      f_install: "Lokasi pemasangan", f_install_hint: "Foto tempat papan tanda akan dipasang, jika perlukan pemasangan",
-      f_msg: "Apa-apa lagi? Lokasi, tarikh akhir, butiran",
-      err_required: "Sila isi ruangan ini",
-      form_note: "Contoh reka bentuk: borang ini belum berfungsi. Laman sebenar akan menghantar pertanyaan ke signcom5m@yahoo.com.",
-      form_ok: "✓ Di laman sebenar, pertanyaan anda kini sedang dihantar kepada 5M Signcom."
+      map_note: "Bukit Kemuning, Seksyen 32, dari Jalan Sungai Jerluh, tidak jauh dari Kesas dan susur Kemuning.",
+      ct_wa_cta: "WhatsApp kami sekarang"
     },
 
     zh: {
@@ -553,23 +498,13 @@
 
       ct_crumb: "联系我们",
       ct_h1: "告诉我们您的店面需要什么",
-      ct_lede: "WhatsApp 发送店面照片，回复最快；或填写表格，我们会回电给您。",
+      ct_lede: "WhatsApp 发送店面照片，回复最快。您也可以致电我们的办公室或发电邮，所有联系方式都列在下方。",
       tag_contact: "联系我们",
-      contact_h2a: "获取", contact_h2free: "免费", contact_h2b: "报价",
-      contact_intro: "请附上您的设计稿与样图。安装位置的照片能帮我们更快报价。",
-      info_head: "5M Signcom Sdn Bhd, 200801011102 (812390-K)",
+      ct_quote_h: "立即索取免费报价",
       lbl_workshop: "厂房与办公室", lbl_directions: "在 Google 地图中打开 →",
       lbl_tel: "电话", lbl_fax: "传真", lbl_email: "电邮",
-      lbl_map: "找到我们", map_note: "武吉哥文宁，第32区，位于 Jalan Sungai Jerluh，距 Kesas 高速与 Kemuning 交汇处不远。",
-      f_name: "姓名", f_company: "公司", f_phone: "电话 / WhatsApp", f_service: "招牌类型",
-      o_notsure: "还不确定，请给我建议",
-      f_artwork: "设计稿", f_artwork_hint: "上传您的标志或设计稿 — JPG、PNG 或 PDF",
-      f_sample: "样图", f_sample_hint: "您想要的招牌样式照片",
-      f_install: "安装位置", f_install_hint: "招牌安装位置的照片（如需安装）",
-      f_msg: "还有其他吗？地点、期限、细节",
-      err_required: "请填写此项",
-      form_note: "设计示范：此表格暂不发送。正式网站将把询价发送至 signcom5m@yahoo.com。",
-      form_ok: "✓ 在正式网站上，您的询价此刻已发送给 5M Signcom。"
+      map_note: "武吉哥文宁，第32区，位于 Jalan Sungai Jerluh，距 Kesas 高速与 Kemuning 交汇处不远。",
+      ct_wa_cta: "立即 WhatsApp 联系我们"
     }
   };
 

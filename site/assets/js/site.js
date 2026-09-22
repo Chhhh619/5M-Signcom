@@ -57,6 +57,39 @@
     a.setAttribute("href", href + (href.indexOf("?") === -1 ? "?" : "&") + "text=" + encodeURIComponent(WA_MSG));
   });
 
+  /* ---- Google Ads conversion tracking ---- */
+  if (typeof gtag === "function") {
+    /* WhatsApp buttons open in a new tab, so the beacon can fire without a navigation race */
+    document.querySelectorAll('a[href*="wa.me"]').forEach(function (a) {
+      a.addEventListener("click", function () {
+        gtag("event", "conversion", { send_to: "AW-16679399863/dyc9CO2_ks4ZELfjrZE-" });
+      });
+    });
+
+    /* "Request a quotation" buttons navigate the current tab: hold the click for the beacon,
+       then continue to contact.html either on gtag's callback or after a short timeout */
+    document.querySelectorAll('a[data-i18n="cta_quote"]').forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        var href = a.getAttribute("href");
+        if (!href) return;
+        e.preventDefault();
+        var navigated = false;
+        var go = function () {
+          if (navigated) return;
+          navigated = true;
+          window.location.href = href;
+        };
+        gtag("event", "conversion", {
+          send_to: "AW-16679399863/gyCRCMCC8s0ZELfjrZE-",
+          value: 1.0,
+          currency: "MYR",
+          event_callback: go
+        });
+        setTimeout(go, 1000);
+      });
+    });
+  }
+
   /* ---- project gallery filter ---- */
   var filterbar = document.querySelector(".filterbar");
   if (filterbar) {
